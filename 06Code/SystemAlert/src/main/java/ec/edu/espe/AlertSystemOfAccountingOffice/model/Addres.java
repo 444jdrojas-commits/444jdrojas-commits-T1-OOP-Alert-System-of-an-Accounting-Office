@@ -10,4 +10,8 @@ package ec.edu.espe.AlertSystemOfAccountingOffice.model;
  */
 public class Addres {
     
+    private String country;
+    private String city;
+    private String Street;
+ 
 }
