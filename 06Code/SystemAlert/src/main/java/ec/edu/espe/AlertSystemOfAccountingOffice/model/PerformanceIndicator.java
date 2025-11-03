@@ -16,5 +16,76 @@ public class PerformanceIndicator {
     private double efficiencyPerDay;
     private double finalScore;
     private String comments;
+
+    public PerformanceIndicator(String period, Assitant assistant, double completionRate, double averageDelay, double efficiencyPerDay, double finalScore, String comments) {
+        this.period = period;
+        this.assistant = assistant;
+        this.completionRate = completionRate;
+        this.averageDelay = averageDelay;
+        this.efficiencyPerDay = efficiencyPerDay;
+        this.finalScore = finalScore;
+        this.comments = comments;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public void setAssistant(Assitant assistant) {
+        this.assistant = assistant;
+    }
+
+    public void setCompletionRate(double completionRate) {
+        this.completionRate = completionRate;
+    }
+
+    public void setAverageDelay(double averageDelay) {
+        this.averageDelay = averageDelay;
+    }
+
+    public void setEfficiencyPerDay(double efficiencyPerDay) {
+        this.efficiencyPerDay = efficiencyPerDay;
+    }
+
+    public void setFinalScore(double finalScore) {
+        this.finalScore = finalScore;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    
+    
+    
+    public String getPeriod() {
+        return period;
+    }
+
+    public Assitant getAssistant() {
+        return assistant;
+    }
+
+    public double getCompletionRate() {
+        return completionRate;
+    }
+
+    public double getAverageDelay() {
+        return averageDelay;
+    }
+
+    public double getEfficiencyPerDay() {
+        return efficiencyPerDay;
+    }
+
+    public double getFinalScore() {
+        return finalScore;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+    
+    
+    
     
 }
