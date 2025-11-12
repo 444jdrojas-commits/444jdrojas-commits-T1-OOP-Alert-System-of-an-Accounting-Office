@@ -1,19 +1,27 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package ec.edu.espe.AlertSystem.controller;
 
 /**
  *
  * @author JOSUE
  */
 
-package ec.edu.espe.AlertSystem.view;
 
-/**
- *
- * @author Paulo Ramos
- */
 import ec.edu.espe.AlertSystem.controller.BusinessController;
 import ec.edu.espe.AlertSystem.controller.NaturalPersonController;
 import ec.edu.espe.AlertSystem.controller.TaskController;
+import ec.edu.espe.AlertSystem.model.Business;
+import ec.edu.espe.AlertSystem.model.Document;
+import ec.edu.espe.AlertSystem.model.NaturalPerson;
+import ec.edu.espe.AlertSystem.model.Task;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
 import ec.edu.espe.AlertSystem.model.Business;
 import ec.edu.espe.AlertSystem.model.Document;
 import ec.edu.espe.AlertSystem.model.NaturalPerson;
@@ -184,4 +192,5 @@ public void showBossMenu() {
 }
 
 }
+
 

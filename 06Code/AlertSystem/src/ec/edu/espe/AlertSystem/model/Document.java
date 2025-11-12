@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author Paulo Ramos
+ * @author Josue Rojas
  */
 
 public class Document {
@@ -62,10 +62,16 @@ public class Document {
         return details;
     }
 
-    @Override
-    public String toString() {
-        return "Document{" + "typeDocument=" + typeDocument + ", status=" + status + ", name=" + name + ", reviewDay=" + reviewDay + ", details=" + details + '}';
-    }
+ @Override
+public String toString() {
+    return "\nDocument Information:" +
+           "\n   Tipo: " + typeDocument +
+           "\n   Estado: " + status +
+           "\n   Nombre: " + name +
+           "\n   Dia de revision: " + reviewDay +
+           "\n   Detalles: " + details +
+           "\n-------------------------------------------";
+}
     
    
 }

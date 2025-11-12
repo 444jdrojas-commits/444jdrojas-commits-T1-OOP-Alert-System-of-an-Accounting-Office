@@ -1,8 +1,9 @@
+
 package ec.edu.espe.AlertSystem.model;
 
 /**
  *
- * @author Paulo Ramos
+ * @author Josue Rojas
  */
 public class Address {
     

@@ -5,7 +5,6 @@
         <group>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/LoginController.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/view/LoginView.java</file>
-            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/util/DataManager.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/Task.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/PerformanceIndicator.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/NaturalPerson.java</file>
@@ -15,13 +14,16 @@
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/Assistant.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/Address.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/model/Boss.java</file>
-            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/view/AssitantView.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/TaskController.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/BusinessController.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/NaturalPersonController.java</file>
-            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/BoosView.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/view/BossView.java</file>
             <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/view/Main.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/util/DataManager.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/view/AssistantView.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/BossView.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/AssistantController.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystem/src/ec/edu/espe/AlertSystem/controller/InvoiceController.java</file>
         </group>
     </open-files>
 </project-private>

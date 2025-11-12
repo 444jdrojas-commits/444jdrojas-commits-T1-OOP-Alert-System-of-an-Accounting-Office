@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ec.edu.espe.AlertSystem.model;
 
 import java.util.Date;
@@ -92,9 +96,18 @@ public class NaturalPerson {
         this.gender = gender;
     }
 
-    @Override
-    public String toString() {
-        return "NaturalPerson{" + "name=" + name + ", identification=" + identification + ", nationality=" + nationality + ", birthDate=" + birthDate + ", phone=" + phone + ", email=" + email + ", ocuppation=" + ocuppation + ", gender=" + gender + '}';
-    }
+@Override
+public String toString() {
+    return "\nNatural Person Information:" +
+           "\n   Name: " + name +
+           "\n   Identification: " + identification +
+           "\n   Nationality: " + nationality +
+           "\n   Birth Date: " + birthDate +
+           "\n   Phone: " + phone +
+           "\n   Email: " + email +
+           "\n   Occupation: " + ocuppation +
+           "\n   Gender: " + gender +
+           "\n-------------------------------------------";
+}
     
 }

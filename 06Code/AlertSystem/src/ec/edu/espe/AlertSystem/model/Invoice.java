@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author Paulo Ramos
+ * @author Josue Rojas
  */
 public class Invoice {
     

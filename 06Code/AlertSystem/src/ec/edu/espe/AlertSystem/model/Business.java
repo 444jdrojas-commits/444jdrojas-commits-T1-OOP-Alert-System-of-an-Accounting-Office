@@ -1,8 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ec.edu.espe.AlertSystem.model;
 
 /**
  *
- * @author Paulo Ramos
+ * @author Josue Rojas
  */
 
 public class Business {
@@ -80,9 +84,17 @@ public class Business {
         return ruc;
     }   
 
-    @Override
-    public String toString() {
-        return "Business{" + "nameBusiness=" + nameBusiness + ", legalRepresentative=" + legalRepresentative + ", typeBusiness=" + typeBusiness + ", address=" + address + ", phone=" + phone + ", email=" + email + ", ruc=" + ruc + '}';
-    }
+@Override
+public String toString() {
+    return "\nBusiness Information:" +
+           "\n   Name: " + nameBusiness +
+           "\n   Legal Representative: " + legalRepresentative +
+           "\n   Type: " + typeBusiness +
+           "\n   Address: " + address +
+           "\n   Phone: " + phone +
+           "\n   Email: " + email +
+           "\n   RUC: " + ruc +
+           "\n-------------------------------------------";
+}
 
 }
