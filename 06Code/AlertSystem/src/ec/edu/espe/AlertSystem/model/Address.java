@@ -1,4 +1,3 @@
-
 package ec.edu.espe.AlertSystem.model;
 
 /**
