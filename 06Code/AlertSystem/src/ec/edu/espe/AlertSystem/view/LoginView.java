@@ -1,56 +1,48 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ec.edu.espe.AlertSystem.view;
 
 import ec.edu.espe.AlertSystem.controller.LoginController;
-import ec.edu.espe.AlertSystem.model.Assistant;
-import ec.edu.espe.AlertSystem.model.Boss;
 import java.util.Scanner;
 
+/**
+ *
+ * @author Paulo Ramos
+ */
 public class LoginView {
-    private final LoginController loginController;
-    private final Scanner sc;
+    private LoginController controller;
+    private Scanner sc;
 
-    public LoginView() {
-        this.loginController = new LoginController();
+    public LoginView(LoginController controller) {
+        this.controller = controller;
         this.sc = new Scanner(System.in);
-        loginController.initializeData();
     }
 
-    public void showLogin() {
-        System.out.println("=======================================");
-        System.out.println("  SISTEMA DE ALERTAS - CONTABILIDAD");
-        System.out.println("=======================================");
+    public void showMenu() {
+        boolean loggedIn = false;
 
-        while (true) {
-            System.out.print("\nIngrese su rol (boss/assistant) o 0 para salir: ");
-            String role = sc.nextLine().trim();
-            if (role.equals("0")) { System.out.println("Saliendo..."); break; }
-
+        while (!loggedIn) {
+            System.out.println("=== Inicio de sesión ===");
             System.out.print("Usuario: ");
-            String user = sc.nextLine().trim();
+            String user = sc.nextLine();
             System.out.print("Contraseña: ");
-            String pass = sc.nextLine().trim();
+            String pass = sc.nextLine();
 
-            switch (role.toLowerCase()) {
-                case "boss" -> handleBoss(user, pass);
-                case "assistant" -> handleAssistant(user, pass);
-                default -> System.out.println("Rol inválido.");
+            if (controller.loginBoss(user, pass)) {
+                System.out.println("\nBienvenido!");
+                BossView bossView = new BossView();
+                bossView.showBossMenu();
+                loggedIn = true; // salir del bucle
+            } else if (controller.loginAssistant(user, pass)) {
+                System.out.println("\nBienvenido!");
+                AssistantView assistantView = new AssistantView(user);
+                assistantView.showMenu();
+                loggedIn = true; // salir del bucle
+            } else {
+                System.out.println("\nCredenciales no válidas. Inténtelo de nuevo...\n");
             }
         }
-    }
-
-    private void handleBoss(String user, String pass) {
-        Boss boss = loginController.getBossIfValid(user, pass);
-        if (boss != null) {
-            System.out.println("Bienvenido, " + boss.getName());
-            new BossView().showBossMenu();
-        } else System.out.println("Credenciales incorrectas (Boss).");
-    }
-
-    private void handleAssistant(String user, String pass) {
-        Assistant a = loginController.getAssistantIfValid(user, pass);
-        if (a != null) {
-            System.out.println("Bienvenido, " + a.getName());
-            new AsistantView(a).showAssistantMenu(); // nombre de tu clase vista
-        } else System.out.println("Credenciales incorrectas (Assistant).");
     }
 }

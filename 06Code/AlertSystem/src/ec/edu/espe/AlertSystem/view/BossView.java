@@ -1,29 +1,15 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ec.edu.espe.AlertSystem.view;
 
 /**
  *
- * @author JOSUE
+ * @author Paulo Ramos
  */
-
-import ec.edu.espe.AlertSystem.controller.BusinessController;
-import ec.edu.espe.AlertSystem.controller.NaturalPersonController;
-import ec.edu.espe.AlertSystem.controller.TaskController;
-import ec.edu.espe.AlertSystem.model.Business;
-import ec.edu.espe.AlertSystem.model.Document;
-import ec.edu.espe.AlertSystem.model.NaturalPerson;
-import ec.edu.espe.AlertSystem.model.Task;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
-
-import ec.edu.espe.AlertSystem.controller.BusinessController;
-import ec.edu.espe.AlertSystem.controller.NaturalPersonController;
-import ec.edu.espe.AlertSystem.controller.TaskController;
-import ec.edu.espe.AlertSystem.model.Business;
-import ec.edu.espe.AlertSystem.model.Document;
-import ec.edu.espe.AlertSystem.model.NaturalPerson;
-import ec.edu.espe.AlertSystem.model.Task;
+import ec.edu.espe.AlertSystem.controller.*;
+import ec.edu.espe.AlertSystem.model.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +19,7 @@ public class BossView {
     private NaturalPersonController personController;
     private BusinessController businessController;
     private TaskController taskController = new TaskController();
-
+private final InvoiceController invoiceController = new InvoiceController(); 
     private Scanner sc;
 
     public BossView() {
@@ -42,43 +28,54 @@ public class BossView {
         sc = new Scanner(System.in);
     }
     
-public void showBossMenu() {
+            
+
+             public void showBossMenu() {
     int option;
     do {
-        System.out.println("\n===== BOSS MENU =====");
-        System.out.println("1. Manage Clients");
-        System.out.println("2. Create Task");
-        System.out.println("3. Create Task"); // 👈 nueva opción
-        System.out.println("4. View Performance Indicators");
-        System.out.println("5. View Alerts");
-        System.out.println("6. Logout");
-        System.out.print("Choose an option: ");
-        option = sc.nextInt();
-        sc.nextLine();
+        System.out.println("\n===== Menu Jefe =====");
+        System.out.println("1. Administrar Clientes");
+        System.out.println("2. Crear tarea");
+        System.out.println("3. Lista de tareas");
+        System.out.println("4. Ver indicador de rendimiento");
+        System.out.println("5. Ver alertas");
+        System.out.println("6. Ver Facturas");
+        System.out.println("7. Salir");
+        System.out.print("Elige una opcion: ");
 
-        switch (option) {
-            case 1 -> manageClient();
-            case 2 -> addTask(); // mostrar todas las tareas
-            case 3 -> listTasks();   // 👈 crear nueva tarea
-            case 4 -> System.out.println("Viewing performance indicators (to implement)");
-            case 5 -> System.out.println("Viewing alerts (to implement)");
-            case 6 -> System.out.println("Logged out successfully.");
-            default -> System.out.println("Invalid option.");
+        String input = sc.nextLine();
+        try {
+            option = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida, ingrese un número.");
+            option = -1;
         }
-    } while (option != 6);
+        
+        
+ switch (option) {
+                case 1 -> manageClient();
+                case 2 -> addTask(); 
+                case 3 -> listTasks();   
+                case 4 -> viewPerformanceIndicators();
+                case 5 -> viewAlerts();
+                case 6 -> listInvoices();
+                case 7 -> System.out.println("Logged out successfully.");
+                default -> System.out.println("Invalid option.");
+            }
+        
+    } while (option != 7);
 }
-
 
     public void manageClient() {
         int option;
         do {
-            System.out.println("\n--- Boss Menu ---");
-            System.out.println("1. Add Natural Person");
-            System.out.println("2. Add Business");
-            System.out.println("3. List Natural Persons");
-            System.out.println("4. List Businesses");
-            System.out.println("0. Exit");
-            System.out.print("Choose: ");
+            System.out.println("\n--- Menu Jefe ---");
+            System.out.println("1. Añadir Persona Natural");
+            System.out.println("2. Añadir Empresa");
+            System.out.println("3. Lista de Personas Naturales");
+            System.out.println("4. Lista Empresas");
+            System.out.println("0. Salir");
+            System.out.print("Elige una opcion: ");
             option = sc.nextInt();
             sc.nextLine();
 
@@ -93,101 +90,133 @@ public void showBossMenu() {
 
     private void addNaturalPerson() {
         try {
-            System.out.print("Name: "); String name = sc.nextLine();
-            System.out.print("Identification: "); String id = sc.nextLine();
-            System.out.print("Nationality: "); String nationality = sc.nextLine();
-            System.out.print("Birth Date (yyyy-MM-dd): "); String birthStr = sc.nextLine();
+            System.out.print("Nombre: "); String name = sc.nextLine();
+            System.out.print("Cedula: "); String id = sc.nextLine();
+            System.out.print("Nacionalidad: "); String nationality = sc.nextLine();
+            System.out.print("Fecha de nacimiento (yyyy-MM-dd): "); String birthStr = sc.nextLine();
             Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(birthStr);
-            System.out.print("Phone: "); String phone = sc.nextLine();
+            System.out.print("Numero de telefono: "); String phone = sc.nextLine();
             System.out.print("Email: "); String email = sc.nextLine();
-            System.out.print("Occupation: "); String occ = sc.nextLine();
-            System.out.print("Gender: "); String gender = sc.nextLine();
+            System.out.print("Ocupacion: "); String occ = sc.nextLine();
+            System.out.print("Genero: "); String gender = sc.nextLine();
 
             NaturalPerson p = new NaturalPerson(name, id, nationality, birthDate, phone, email, occ, gender);
             personController.addNaturalPerson(p);
-            System.out.println(" Natural person added successfully!");
+            System.out.println(" Persona natural añadida!");
         } catch (ParseException e) {
-            System.out.println(" Invalid date format. Use yyyy-MM-dd");
+            System.out.println(" Formato inválido. Use yyyy-MM-dd");
         }
     }
 
     private void addBusiness() {
-        System.out.print("Business Name: "); String name = sc.nextLine();
-        System.out.print("Legal Representative: "); String legalRep = sc.nextLine();
-        System.out.print("Type of Business: "); String type = sc.nextLine();
-        System.out.print("Address: "); String address = sc.nextLine();
-        System.out.print("Phone: "); String phone = sc.nextLine();
+        System.out.print("Nombre de la empresa: "); String name = sc.nextLine();
+        System.out.print("Representante Legal: "); String legalRep = sc.nextLine();
+        System.out.print("Tipo de empresa: "); String type = sc.nextLine();
+        System.out.print("Direccion: "); String address = sc.nextLine();
+        System.out.print("Numero de telefono: "); String phone = sc.nextLine();
         System.out.print("Email: "); String email = sc.nextLine();
         System.out.print("RUC: "); String ruc = sc.nextLine();
 
         Business b = new Business(name, legalRep, type, address, phone, email, ruc);
         businessController.addBusiness(b);
-        System.out.println(" Business added successfully!");
+        System.out.println(" Empresa añadida exitosamente!");
     }
 
     private void addTask() {
-    try {
-        System.out.print("Description: ");
-        String description = sc.nextLine();
+        try {
+            System.out.print("Descripción: ");
+            String description = sc.nextLine();
 
-        System.out.print("Creation Date (yyyy-MM-dd): ");
-        String creationStr = sc.nextLine();
-        Date creationDate = new SimpleDateFormat("yyyy-MM-dd").parse(creationStr);
+            System.out.print("Fecha de creación (yyyy-MM-dd): ");
+            Date creationDate = new SimpleDateFormat("yyyy-MM-dd").parse(sc.nextLine());
 
-        System.out.print("Delivery Date (yyyy-MM-dd): ");
-        String deliveryStr = sc.nextLine();
-        Date deliveryDate = new SimpleDateFormat("yyyy-MM-dd").parse(deliveryStr);
+            System.out.print("Fecha de entrega (yyyy-MM-dd): ");
+            Date deliveryDate = new SimpleDateFormat("yyyy-MM-dd").parse(sc.nextLine());
 
-        System.out.print("Status: ");
-        String statusTask = sc.nextLine(); // 👈 status de la tarea
+            System.out.print("Estado de la tarea: ");
+            String statusTask = sc.nextLine();
 
-        System.out.print("Customer: ");
-        String customer = sc.nextLine();
+            System.out.print("Cliente: ");
+            String customer = sc.nextLine();
 
-        // Datos del documento
-        System.out.print("Document Name: ");
-        String docName = sc.nextLine();
+            // ====== Datos del documento ======
+            System.out.print("Nombre del documento: ");
+            String docName = sc.nextLine();
 
-        System.out.print("Document Type: ");
-        String typeDocument = sc.nextLine();
+            System.out.print("Tipo de documento: ");
+            String typeDocument = sc.nextLine();
 
-        System.out.print("Document Status: ");
-        String docStatus = sc.nextLine();
+            System.out.print("Estado del documento: ");
+            String docStatus = sc.nextLine();
 
-        System.out.print("Review Day (yyyy-MM-dd): ");
-        String reviewStr = sc.nextLine();
-        Date reviewDay = new SimpleDateFormat("yyyy-MM-dd").parse(reviewStr);
+            System.out.print("Día de revisión (yyyy-MM-dd): ");
+            Date reviewDay = new SimpleDateFormat("yyyy-MM-dd").parse(sc.nextLine());
 
-        System.out.print("Document Details: ");
-        String details = sc.nextLine();
+            System.out.print("Detalles del documento: ");
+            String details = sc.nextLine();
 
-        // Crear el documento con todos los atributos
-        Document document = new Document(typeDocument, docStatus, docName, reviewDay, details);
+            Document document = new Document(typeDocument, docStatus, docName, reviewDay, details);
 
-        // Crear la tarea asociada al documento
-        Task task = new Task(description, creationDate, deliveryDate, statusTask, customer, document);
+            // ====== Asignación ======
+            System.out.print("Nombre del asistente asignado: ");
+            String assignedTo = sc.nextLine();
 
-        taskController.addTask(task);
-        System.out.println(" Task created successfully!");
-    } catch (ParseException e) {
-        System.out.println(" Invalid date format. Use yyyy-MM-dd");
+            int id = taskController.generateNextId();
+
+            Task task = new Task(id, description, creationDate, deliveryDate, statusTask, customer, document, assignedTo);
+
+            taskController.addTask(task);
+            System.out.println("\n Tarea #" + id + " creada correctamente y asignada a " + assignedTo + "!\n");
+
+        } catch (ParseException e) {
+            System.out.println(" Formato inválido de fecha. Use yyyy-MM-dd");
+        }
     }
-}
-
 
     private void listNaturalPersons() {
-        System.out.println("\n--- Natural Persons ---");
+        System.out.println("\n--- Personas Naturales ---");
         personController.getAllNaturalPersons().forEach(System.out::println);
     }
 
     private void listBusinesses() {
-        System.out.println("\n--- Businesses ---");
+        System.out.println("\n--- Empresas ---");
         businessController.getAllBusinesses().forEach(System.out::println);
     }
+
     private void listTasks() {
-    System.out.println("\n--- Tasks ---");
-    taskController.getAllTasks().forEach(System.out::println);
+        System.out.println("\n--- Tareas ---");
+        taskController.getAllTasks().forEach(System.out::println);
+    }
+
+    private void viewPerformanceIndicators() {
+        long total = taskController.getAllTasks().size();
+        long completed = taskController.getAllTasks().stream()
+                .filter(t -> "Completada".equalsIgnoreCase(t.getStatus()))
+                .count();
+
+        System.out.println("\n--- Indicadores de Rendimiento ---");
+        System.out.println("Total de tareas: " + total);
+        System.out.println("Tareas completadas: " + completed);
+        System.out.println("Tareas pendientes: " + (total - completed));
+    }
+
+    private void viewAlerts() {
+        System.out.println("\n--- Alertas ---");
+        taskController.getAllTasks().stream()
+                .filter(t -> !"Completada".equalsIgnoreCase(t.getStatus()))
+                .forEach(t -> System.out.println("️ Tarea pendiente: " + t.getDescription() +
+                        " | Asignada a: " + t.getAssignedTo() +
+                        " | Fecha de entrega: " + t.getDeliveryDate()));
+    }
+    
+private void listInvoices() {
+    System.out.println("\n--- Facturas ---");
+    if (invoiceController.getAllInvoices().isEmpty()) {
+        System.out.println("No hay facturas registradas.");
+    } else {
+        invoiceController.getAllInvoices().forEach(System.out::println);
+    }
 }
 
-}
 
+}
