@@ -1,21 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ec.edu.espe.AlertSystem.controller;
 
 /**
  *
- * @author JOSUE
+ * @author Paulo Ramos
  */
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import ec.edu.espe.AlertSystem.model.Business;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import ec.edu.espe.AlertSystem.model.Business;
@@ -36,15 +28,24 @@ public class BusinessController {
         businesses = loadBusinesses();
     }
 
+    /**
+     * Agrega un nuevo negocio y guarda la lista en JSON.
+     */
     public void addBusiness(Business business) {
         businesses.add(business);
         saveBusinesses();
     }
 
+    /**
+     * Devuelve todos los negocios cargados.
+     */
     public List<Business> getAllBusinesses() {
         return businesses;
     }
 
+    /**
+     * Carga la lista de negocios desde el archivo JSON.
+     */
     private List<Business> loadBusinesses() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             Type listType = new TypeToken<List<Business>>() {}.getType();
@@ -54,7 +55,9 @@ public class BusinessController {
         }
     }
 
-
+    /**
+     * Guarda la lista de negocios en el archivo JSON.
+     */
     private void saveBusinesses() {
         try {
             File file = new File(FILE_PATH);
@@ -68,6 +71,9 @@ public class BusinessController {
         }
     }
 
+    /**
+     * Verifica que la carpeta "src/ec/edu/espe/util" exista, si no la crea.
+     */
     private void ensureDirectoryExists() {
         File file = new File(FILE_PATH);
         File dir = file.getParentFile();
