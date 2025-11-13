@@ -2,7 +2,7 @@ package ec.edu.espe.AlertSystem.util;
 
 /**
  *
- * @author Paulo Ramos
+ * @author Josue Rojas
  */
 
 import com.google.gson.Gson;
