@@ -1,0 +1,15 @@
+[
+  {
+    "nameBusiness": "Caramelos",
+    "legalRepresentative": "Josue Rojas",
+    "typeBusiness": "Venta",
+    "address": {
+      "city": "Quito",
+      "street": "Gasca",
+      "sector": "Conocoto"
+    },
+    "phone": "0995785176",
+    "email": "caramelos@gmail.com",
+    "ruc": "1748597856984"
+  }
+]
