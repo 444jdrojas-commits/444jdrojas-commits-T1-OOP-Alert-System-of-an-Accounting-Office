@@ -1,11 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ec.edu.espe.alertsystem.view;
 
-import ec.edu.espe.alertsystem.controller.Validation;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import ec.edu.espe.alertsystem.controller.BusinessController;
+import ec.edu.espe.alertsystem.controller.MongoConnection;
+import ec.edu.espe.alertsystem.controller.NaturalPersonController;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
+import utils.Validation;
 
 /**
  *
@@ -20,6 +25,7 @@ public class FrmManageCustomer extends javax.swing.JFrame {
      */
     public FrmManageCustomer() {
         initComponents();
+        loadTable();
     }
 
     /**
@@ -282,15 +288,15 @@ public class FrmManageCustomer extends javax.swing.JFrame {
 
         if (!nombre.isEmpty() && !Validation.isAlphabetic(nombre)) {
             JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras.");
-            txtName.setText("");       
-            txtName.requestFocus();    
+            txtName.setText("");
+            txtName.requestFocus();
             return;
         }
 
         if (!ruc.isEmpty() && !Validation.isInteger(ruc)) {
             JOptionPane.showMessageDialog(null, "El CI/RUC solo debe contener números.");
-            txtCiRuc.setText("");          
-            txtCiRuc.requestFocus();       
+            txtCiRuc.setText("");
+            txtCiRuc.requestFocus();
             return;
         }
 
@@ -304,6 +310,52 @@ public class FrmManageCustomer extends javax.swing.JFrame {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+    
+    private void loadTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> naturalCollection
+                = MongoConnection.getConnection().getCollection("naturalPersons");
+
+        for (Document doc : naturalCollection.find()) {
+
+            Document address = (Document) doc.get("address");
+            String city = (address != null) ? address.getString("city") : "";
+
+            model.addRow(new Object[]{
+                doc.getString("identification"), 
+                "Persona Natural",
+                doc.getString("name"),
+                doc.getString("phone"), 
+                doc.getString("email"), 
+                city 
+            });
+        }
+
+        MongoCollection<Document> businessCollection
+                = MongoConnection.getConnection().getCollection("businesses");
+
+        for (Document doc : businessCollection.find()) {
+
+            String name = doc.containsKey("nameBusiness")
+                    ? doc.getString("nameBusiness")
+                    : doc.getString("name");
+
+            Document address = (Document) doc.get("address");
+            String city = (address != null) ? address.getString("city") : "";
+
+            model.addRow(new Object[]{
+                doc.getString("ruc"),
+                "Empresa",
+                name, 
+                doc.getString("phone"), 
+                doc.getString("email"), 
+                city 
+            });
+        }
+    }
 
     /**
      * @param args the command line arguments

@@ -1,11 +1,22 @@
 package ec.edu.espe.alertsystem.view;
 
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import ec.edu.espe.alertsystem.controller.MongoConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
+import java.lang.String;
+import java.util.Locale;
+
 /**
  *
  * @author JOSUE
  */
 public class FrmSeeMyAlerts extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmSeeMyAlerts.class.getName());
 
     /**
@@ -13,6 +24,8 @@ public class FrmSeeMyAlerts extends javax.swing.JFrame {
      */
     public FrmSeeMyAlerts() {
         initComponents();
+        loadAssistantTasks();
+
     }
 
     /**
@@ -28,7 +41,7 @@ public class FrmSeeMyAlerts extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAssistantTask = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -59,18 +72,18 @@ public class FrmSeeMyAlerts extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 185, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAssistantTask.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Numero de Tarea", "Nombre ", "Cliente", "Estado", "Fecha de Entrega", "Dias Restantes", "Asistente "
+                "Numero de Tarea", "Nombre ", "Cliente", "Estado", "Fecha de Entrega", "Dias Restantes"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblAssistantTask);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -145,6 +158,61 @@ public class FrmSeeMyAlerts extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void loadAssistantTasks() {
+
+    DefaultTableModel model = (DefaultTableModel) tblAssistantTask.getModel();
+    model.setRowCount(0);
+
+    MongoCollection<Document> taskCollection =
+            MongoConnection.getConnection().getCollection("tasks");
+
+    FindIterable<Document> tasks = taskCollection.find(Filters.eq("assignedTo", "1"));
+
+    for (Document doc : tasks) {
+
+        int id = doc.getInteger("id");
+        String description = doc.getString("description");
+        String client = doc.getString("customer");
+        String status = doc.getString("status");
+
+        String dateString = "";
+        int daysRemaining = 0;
+        Object dateObj = doc.get("deliveryDate");
+
+        Date deliveryDate = null;
+
+        try {
+            if (dateObj instanceof Date) {
+                deliveryDate = (Date) dateObj;
+            } else if (dateObj instanceof String) {
+                SimpleDateFormat parser =
+                        new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
+                deliveryDate = parser.parse(dateObj.toString());
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+            dateString = sdf.format(deliveryDate);
+
+            Date today = new Date();
+            long diffMillis = deliveryDate.getTime() - today.getTime();
+            daysRemaining = (int) (diffMillis / (1000 * 60 * 60 * 24));
+
+        } catch (Exception e) {
+            dateString = dateObj != null ? dateObj.toString() : "";
+            daysRemaining = 0;
+        }
+
+        model.addRow(new Object[]{
+                id,
+                description,
+                client,
+                status,
+                dateString,
+                daysRemaining
+        });
+    }
+}
+
     /**
      * @param args the command line arguments
      */
@@ -177,6 +245,6 @@ public class FrmSeeMyAlerts extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblAssistantTask;
     // End of variables declaration//GEN-END:variables
 }

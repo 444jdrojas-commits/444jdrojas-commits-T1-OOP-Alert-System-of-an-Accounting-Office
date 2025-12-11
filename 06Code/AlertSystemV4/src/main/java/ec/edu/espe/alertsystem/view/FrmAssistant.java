@@ -1,11 +1,19 @@
 package ec.edu.espe.alertsystem.view;
 
+import ec.edu.espe.alertsystem.controller.AssistantController;
+import ec.edu.espe.alertsystem.model.Assistant;
+import java.time.LocalDate;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import utils.Validation;
+
 /**
  *
  * @author JOSUE
  */
 public class FrmAssistant extends javax.swing.JFrame {
-    
+
+    Assistant assistant = new Assistant();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmAssistant.class.getName());
 
     /**
@@ -39,7 +47,7 @@ public class FrmAssistant extends javax.swing.JFrame {
         txtId = new javax.swing.JTextField();
         txtPhone = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
+        dtBirthDate = new com.github.lgooddatepicker.components.DatePicker();
         txtUser = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
@@ -49,8 +57,8 @@ public class FrmAssistant extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(200, 185, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Assistant");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,29 +79,34 @@ public class FrmAssistant extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 185, 255));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Id:");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Nombre:");
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        jLabel4.setText("Birth Date:");
         jLabel4.setBackground(new java.awt.Color(200, 185, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("Birth Date:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Usuario:");
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Contraseña:");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Email:");
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Telefono:");
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         btnSave.setText("Guardar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,13 +156,13 @@ public class FrmAssistant extends javax.swing.JFrame {
                         .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                         .addComponent(txtId)
                         .addComponent(txtName))
-                    .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
@@ -183,7 +196,7 @@ public class FrmAssistant extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addComponent(jLabel7)
                         .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -239,6 +252,120 @@ public class FrmAssistant extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+
+        String nombre = txtName.getText().trim();
+        if (nombre.isEmpty() || !Validation.isAlphabetic(nombre)) {
+            JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras y no puede estar vacío.");
+            txtName.requestFocus();
+            return;
+        }
+
+        String representante = txtUser.getText().trim();
+        if (representante.isEmpty() || !Validation.isAlphabetic(representante)) {
+            JOptionPane.showMessageDialog(null, "El representante solo debe contener letras y no puede estar vacío.");
+            txtUser.requestFocus();
+            return;
+        }
+
+        String telefono = txtPhone.getText().trim();
+        if (telefono.isEmpty() || !Validation.isInteger(telefono)) {
+            JOptionPane.showMessageDialog(null, "El teléfono solo debe contener números y no puede estar vacío.");
+            txtPhone.requestFocus();
+            return;
+        }
+        String email = txtEmail.getText().trim();
+        if (email.isEmpty() || !Validation.isEmail(email)) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido.");
+            txtEmail.requestFocus();
+            return;
+        }
+
+        LocalDate selectedDate = dtBirthDate.getDate();
+
+        if (selectedDate == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de nacimiento.");
+            dtBirthDate.requestFocus();
+            return;
+        }
+
+        if (!selectedDate.isBefore(LocalDate.now())) {
+            JOptionPane.showMessageDialog(null, "La fecha de nacimiento debe ser anterior a la fecha actual.");
+            dtBirthDate.requestFocus();
+            return;
+        }
+
+        readValuesAssistant();
+
+        int option = JOptionPane.showConfirmDialog(
+                rootPane,
+                "¿Desea guardar este Asistente?",
+                "Guardar",
+                JOptionPane.YES_NO_CANCEL_OPTION
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            AssistantController controller = new AssistantController();
+            boolean saved = controller.save(
+                    assistant.getId(),
+                    assistant.getName(),
+                    assistant.getBirthDate(),
+                    assistant.getPhone(),
+                    assistant.getEmail(),
+                    assistant.getUser(),
+                    assistant.getPassword()
+            );
+
+            if (saved) {
+                JOptionPane.showMessageDialog(rootPane,
+                        "Guardado con éxito\n" + assistant.toString());
+            } else {
+                JOptionPane.showMessageDialog(rootPane,
+                        "Error al guardar",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            emptyFieldsAssistant();
+
+        } else if (option == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Los datos no serán guardados",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            emptyFieldsAssistant();
+        } else {
+            txtName.requestFocus();
+        }
+
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void readValuesAssistant() {
+        String name = txtName.getText();
+        LocalDate localDate = dtBirthDate.getDate();
+        Date birthDate = java.sql.Date.valueOf(localDate);
+
+        String phone = txtPhone.getText();
+        String email = txtEmail.getText();
+        String user = txtUser.getText();
+        String password = txtPassword.getText();
+
+        AssistantController controller = new AssistantController();
+        int id = controller.generateUniqueId();
+
+        assistant = new Assistant(id, name, birthDate, phone, email, user, password);
+    }
+
+    private void emptyFieldsAssistant() {
+        txtName.setText("");
+        dtBirthDate.setText("");
+        txtPhone.setText("");
+        txtEmail.setText("");
+        txtUser.setText("");
+        txtPassword.setText("");
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -266,7 +393,7 @@ public class FrmAssistant extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnSave;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private com.github.lgooddatepicker.components.DatePicker dtBirthDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,11 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ec.edu.espe.alertsystem.view;
 
-import ec.edu.espe.alertsystem.controller.Validation;
+import com.mongodb.client.MongoCollection;
+import ec.edu.espe.alertsystem.controller.MongoConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
+import utils.Validation;
 
 /**
  *
@@ -20,6 +23,7 @@ public class FrmManageTask extends javax.swing.JFrame {
      */
     public FrmManageTask() {
         initComponents();
+        loadTaskTable();
     }
 
     /**
@@ -44,7 +48,7 @@ public class FrmManageTask extends javax.swing.JFrame {
         cmbState = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCustomer = new javax.swing.JTable();
+        tblTask = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -149,8 +153,8 @@ public class FrmManageTask extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(200, 185, 255));
 
-        tblCustomer.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null));
-        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
+        tblTask.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null));
+        tblTask.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -161,7 +165,7 @@ public class FrmManageTask extends javax.swing.JFrame {
                 "ID", "Descripcion", "Cliente", "Estado", "Asistente", "Fecha Entrega"
             }
         ));
-        jScrollPane1.setViewportView(tblCustomer);
+        jScrollPane1.setViewportView(tblTask);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -262,14 +266,60 @@ public class FrmManageTask extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         String nombre = txtName.getText().trim();
-        
+
         if (!nombre.isEmpty() && !Validation.isAlphabetic(nombre)) {
             JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras.");
-            txtName.setText("");       
-            txtName.requestFocus();    
+            txtName.setText("");
+            txtName.requestFocus();
         }
 
     }//GEN-LAST:event_btnFindActionPerformed
+    private void loadTaskTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblTask.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> taskCollection = MongoConnection.getConnection().getCollection("tasks");
+
+        for (Document doc : taskCollection.find()) {
+
+            String id = doc.get("id").toString();
+            String description = doc.getString("description");
+            String client = doc.getString("customer");
+            String status = doc.getString("status");
+            String assistant = doc.getString("assistant");
+
+            String dateString = "";
+            Object dateObj = doc.get("deliveryDate");
+
+            if (dateObj instanceof Date) {
+                // Si Mongo algún día lo guarda como Date
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                dateString = sdf.format((Date) dateObj);
+
+            } else if (dateObj instanceof String) {
+                try {
+                    SimpleDateFormat parser = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
+                    Date parsed = parser.parse(dateObj.toString());
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                    dateString = sdf.format(parsed);
+
+                } catch (Exception e) {
+                    dateString = dateObj.toString();
+                }
+            }
+
+            model.addRow(new Object[]{
+                id,
+                description,
+                client,
+                status,
+                assistant,
+                dateString
+            });
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -314,7 +364,7 @@ public class FrmManageTask extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblCustomer;
+    private javax.swing.JTable tblTask;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

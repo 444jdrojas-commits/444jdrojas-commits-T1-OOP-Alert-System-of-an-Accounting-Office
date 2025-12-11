@@ -1,11 +1,21 @@
 package ec.edu.espe.alertsystem.view;
 
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import ec.edu.espe.alertsystem.controller.MongoConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
+
 /**
  *
  * @author JOSUE
  */
 public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmSeeMyPerformanceIndicators.class.getName());
 
     /**
@@ -13,6 +23,7 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
      */
     public FrmSeeMyPerformanceIndicators() {
         initComponents();
+        loadSummaryTable();
     }
 
     /**
@@ -35,7 +46,7 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblPerformanceIndicator = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -125,7 +136,7 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(200, 185, 255));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblPerformanceIndicator.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -144,7 +155,7 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblPerformanceIndicator);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel10.setText("Tus indicadores de rendimiento muestran :");
@@ -198,6 +209,89 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadSummaryTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblPerformanceIndicator.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        FindIterable<Document> tasks
+                = taskCollection.find(Filters.eq("assignedTo", "1"));
+
+        int total = 0;
+        int completed = 0;
+        int pending = 0;
+        int overdue = 0;
+        int warning = 0;
+
+        Date today = new Date();
+
+        for (Document doc : tasks) {
+
+            total++;
+
+            String status = doc.getString("status");
+
+            Object dateObj = doc.get("deliveryDate");
+            Date deliveryDate = null;
+
+            if (dateObj instanceof Date) {
+                deliveryDate = (Date) dateObj;
+            } else if (dateObj instanceof String) {
+                try {
+                    SimpleDateFormat parser
+                            = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
+                    deliveryDate = parser.parse(dateObj.toString());
+                } catch (Exception e) {
+                    deliveryDate = null;
+                }
+            }
+
+            if ("Completada".equalsIgnoreCase(status)) {
+                completed++;
+                continue;
+            }
+
+            pending++;
+
+            if (deliveryDate != null) {
+                long diff = deliveryDate.getTime() - today.getTime();
+                int days = (int) (diff / (1000 * 60 * 60 * 24));
+
+                if (days < 0) {
+                    overdue++;
+                } else if (days <= 3) {
+                    warning++;
+                }
+            }
+        }
+
+        double compliance = total > 0 ? (completed * 100.0 / total) : 0;
+
+        String performance;
+        if (compliance >= 90) {
+            performance = "Excelente";
+        } else if (compliance >= 70) {
+            performance = "Bueno";
+        } else if (compliance >= 40) {
+            performance = "Regular";
+        } else {
+            performance = "Malo";
+        }
+
+        model.addRow(new Object[]{
+            total,
+            completed,
+            pending,
+            overdue,
+            warning,
+            compliance,  
+            performance
+        });
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -235,7 +329,7 @@ public class FrmSeeMyPerformanceIndicators extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTable tblPerformanceIndicator;
     // End of variables declaration//GEN-END:variables
 }

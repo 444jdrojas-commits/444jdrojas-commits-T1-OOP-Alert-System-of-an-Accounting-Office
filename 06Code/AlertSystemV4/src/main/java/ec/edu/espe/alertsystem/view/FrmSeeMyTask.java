@@ -1,11 +1,21 @@
 package ec.edu.espe.alertsystem.view;
 
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import ec.edu.espe.alertsystem.controller.MongoConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
+
 /**
  *
  * @author JOSUE
  */
 public class FrmSeeMyTask extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmSeeMyTask.class.getName());
 
     /**
@@ -13,6 +23,7 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
      */
     public FrmSeeMyTask() {
         initComponents();
+        loadSmallTaskTable();
     }
 
     /**
@@ -28,7 +39,7 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTasks = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -38,8 +49,8 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(200, 185, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Ver Mis Tareas");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -60,7 +71,7 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 185, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTasks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -79,7 +90,7 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblTasks);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -160,6 +171,76 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+    private void loadSmallTaskTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblTasks.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        FindIterable<Document> tasks
+                = taskCollection.find(Filters.eq("assignedTo", "1"));
+
+        SimpleDateFormat mongoFormat = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
+        SimpleDateFormat outFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Document doc : tasks) {
+
+            String id = doc.get("id").toString();
+            String description = doc.getString("description");
+            String status = doc.getString("status");
+            String client = doc.getString("customer");
+
+            String delivery = "";
+
+            Object dateObj = doc.get("deliveryDate");
+
+            if (dateObj != null) {
+
+                if (dateObj instanceof Date) {
+                    delivery = outFormat.format((Date) dateObj);
+
+                } else if (dateObj instanceof String) {
+                    try {
+                        String clean = dateObj.toString().replace("\u202F", " ").trim();
+                        Date parsed = mongoFormat.parse(clean);
+                        delivery = outFormat.format(parsed);
+                    } catch (Exception e) {
+                        delivery = "";
+                    }
+                }
+
+            } else {
+
+                if (doc.containsKey("document")) {
+                    Document inner = (Document) doc.get("document");
+                    Object reviewObj = inner.get("reviewDay");
+
+                    if (reviewObj instanceof Date) {
+                        delivery = outFormat.format((Date) reviewObj);
+
+                    } else if (reviewObj instanceof String) {
+                        try {
+                            String clean = reviewObj.toString().replace("\u202F", " ").trim();
+                            Date parsed = mongoFormat.parse(clean);
+                            delivery = outFormat.format(parsed);
+                        } catch (Exception e) {
+                            delivery = "";
+                        }
+                    }
+                }
+            }
+
+            model.addRow(new Object[]{
+                id,
+                description,
+                status,
+                client,
+                delivery
+            });
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -194,6 +275,6 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblTasks;
     // End of variables declaration//GEN-END:variables
 }

@@ -120,14 +120,14 @@
                           <Component id="txtId" max="32767" attributes="0"/>
                           <Component id="txtName" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="datePicker1" min="-2" max="-2" attributes="0"/>
+                      <Component id="dtBirthDate" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtPassword" pref="174" max="32767" attributes="0"/>
+                          <Component id="txtPassword" pref="175" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -172,7 +172,7 @@
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="datePicker1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="dtBirthDate" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -252,6 +252,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtId">
           <Events>
@@ -265,7 +268,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.github.lgooddatepicker.components.DatePicker" name="datePicker1">
+        <Component class="com.github.lgooddatepicker.components.DatePicker" name="dtBirthDate">
         </Component>
         <Component class="javax.swing.JTextField" name="txtUser">
           <Events>

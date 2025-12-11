@@ -1,12 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ec.edu.espe.alertsystem.view;
 
-import ec.edu.espe.alertsystem.controller.Validation;
+import ec.edu.espe.alertsystem.controller.BusinessController;
+import ec.edu.espe.alertsystem.model.Address;
+import ec.edu.espe.alertsystem.model.Audit;
+import ec.edu.espe.alertsystem.model.Business;
 import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import utils.Validation;
 
 /**
  *
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class FrmAddBussines extends javax.swing.JFrame {
 
+    Business business = new Business();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmAddBussines.class.getName());
 
     /**
@@ -47,7 +49,7 @@ public class FrmAddBussines extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtNameBussines = new javax.swing.JTextField();
         txtLegalRepresentative = new javax.swing.JTextField();
-        txtTypeBussines = new javax.swing.JTextField();
+        txtTypeBusiness = new javax.swing.JTextField();
         txtCity = new javax.swing.JTextField();
         txtStreet = new javax.swing.JTextField();
         txtSector = new javax.swing.JTextField();
@@ -65,7 +67,7 @@ public class FrmAddBussines extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDescription = new javax.swing.JTextArea();
         txtHour = new javax.swing.JTextField();
         btnSaveBussines = new javax.swing.JButton();
 
@@ -127,9 +129,9 @@ public class FrmAddBussines extends javax.swing.JFrame {
             }
         });
 
-        txtTypeBussines.addActionListener(new java.awt.event.ActionListener() {
+        txtTypeBusiness.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTypeBussinesActionPerformed(evt);
+                txtTypeBusinessActionPerformed(evt);
             }
         });
 
@@ -165,9 +167,9 @@ public class FrmAddBussines extends javax.swing.JFrame {
         jLabel17.setText("Descripcion:");
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDescription.setColumns(20);
+        txtDescription.setRows(5);
+        jScrollPane1.setViewportView(txtDescription);
 
         btnSaveBussines.setText("Guardar");
         btnSaveBussines.setBackground(new java.awt.Color(165, 215, 255));
@@ -198,7 +200,7 @@ public class FrmAddBussines extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(cmbTypeCustomer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtTypeBussines, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(txtTypeBusiness, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +277,7 @@ public class FrmAddBussines extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(txtTypeBussines, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTypeBusiness, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -345,9 +347,9 @@ public class FrmAddBussines extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLegalRepresentativeActionPerformed
 
-    private void txtTypeBussinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTypeBussinesActionPerformed
+    private void txtTypeBusinessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTypeBusinessActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTypeBussinesActionPerformed
+    }//GEN-LAST:event_txtTypeBusinessActionPerformed
 
     private void radAuditNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAuditNoActionPerformed
         // TODO add your handling code here:
@@ -388,17 +390,21 @@ public class FrmAddBussines extends javax.swing.JFrame {
             return;
         }
 
-        LocalDate fecha = dtAuditDay.getDate();
-        if (fecha == null || !Validation.isFutureDate(fecha)) {
-            JOptionPane.showMessageDialog(null, "La fecha debe ser futura (no hoy ni pasada).");
-            dtAuditDay.requestFocus();
-            return;
-        }
-        String hora = txtHour.getText().trim();
-        if (hora.isEmpty() || !Validation.isHour(hora)) {
-            JOptionPane.showMessageDialog(null, "La hora debe tener formato HH:mm y no puede estar vacía.");
-            txtHour.requestFocus();
-            return;
+        if (radAuditYes.isSelected()) {
+
+            LocalDate fecha = dtAuditDay.getDate();
+            if (fecha == null || !Validation.isFutureDate(fecha)) {
+                JOptionPane.showMessageDialog(null, "La fecha debe ser futura (no hoy ni pasada).");
+                dtAuditDay.requestFocus();
+                return;
+            }
+
+            String hora = txtHour.getText().trim();
+            if (hora.isEmpty() || !Validation.isHour(hora)) {
+                JOptionPane.showMessageDialog(null, "La hora debe tener formato HH:mm y no puede estar vacía.");
+                txtHour.requestFocus();
+                return;
+            }
         }
 
         String ciudad = txtCity.getText().trim();
@@ -422,10 +428,81 @@ public class FrmAddBussines extends javax.swing.JFrame {
             return;
         }
 
-        JOptionPane.showMessageDialog(null, "Datos validados correctamente. Guardando");
+        readValuesBussines();
 
+        int option = JOptionPane.showConfirmDialog(rootPane, "¿Desea guardar esta Empresa?", "Guardar", JOptionPane.YES_NO_CANCEL_OPTION
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+
+            BusinessController controller = new BusinessController();
+            boolean saved = controller.save(business);
+
+            if (saved) {
+                JOptionPane.showMessageDialog(rootPane, "Guardado con éxito\n" + business.toString());
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            emptyFieldsBussines();
+
+        } else if (option == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Los datos no serán guardados",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            emptyFieldsBussines();
+        } else {
+            txtNameBussines.requestFocus();
+        }
 
     }//GEN-LAST:event_btnSaveBussinesActionPerformed
+
+    private void readValuesBussines() {
+
+        String name = txtNameBussines.getText();
+        String legal = txtLegalRepresentative.getText();
+        String type = txtTypeBusiness.getText();
+        String phone = txtPhone.getText();
+        String email = txtEmail.getText();
+        String ruc = txtRuc.getText();
+
+        String city = txtCity.getText();
+        String street = txtStreet.getText();
+        String sector = txtSector.getText();
+
+        Address address = new Address(city, street, sector);
+
+        Audit audit = null;
+        if (radAuditYes.isSelected()) {
+
+            LocalDate localDate = dtAuditDay.getDate();
+            Date auditDate = java.sql.Date.valueOf(localDate);
+
+            String hour = txtHour.getText();
+            String description = txtDescription.getText();
+
+            audit = new Audit(auditDate, hour, null, description);
+        }
+
+        business = new Business(name, legal, type, address, phone, email, ruc, audit);
+    }
+
+    private void emptyFieldsBussines() {
+        txtNameBussines.setText("");
+        txtLegalRepresentative.setText("");
+        txtTypeBusiness.setText("");
+        txtPhone.setText("");
+        txtEmail.setText("");
+        txtRuc.setText("");
+
+        dtAuditDay.setText("");
+        txtHour.setText("");
+        txtDescription.setText("");
+
+        txtCity.setText("");
+        txtStreet.setText("");
+        txtSector.setText("");
+    }
 
     /**
      * @param args the command line arguments
@@ -476,10 +553,10 @@ public class FrmAddBussines extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JRadioButton radAuditNo;
     private javax.swing.JRadioButton radAuditYes;
     private javax.swing.JTextField txtCity;
+    private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHour;
     private javax.swing.JTextField txtLegalRepresentative;
@@ -488,6 +565,6 @@ public class FrmAddBussines extends javax.swing.JFrame {
     private javax.swing.JTextField txtRuc;
     private javax.swing.JTextField txtSector;
     private javax.swing.JTextField txtStreet;
-    private javax.swing.JTextField txtTypeBussines;
+    private javax.swing.JTextField txtTypeBusiness;
     // End of variables declaration//GEN-END:variables
 }

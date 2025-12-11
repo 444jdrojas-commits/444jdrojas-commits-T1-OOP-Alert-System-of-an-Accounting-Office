@@ -1,5 +1,6 @@
-package ec.edu.espe.alertsystem.controller;
+package utils;
 
+import ec.edu.espe.alertsystem.controller.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -253,5 +254,8 @@ public class Validation {
         LocalDate today = LocalDate.now();
         return date.isAfter(today);
     }
+
+
+
 
 }

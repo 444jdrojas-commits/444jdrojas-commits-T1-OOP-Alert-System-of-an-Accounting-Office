@@ -1,18 +1,17 @@
 package ec.edu.espe.alertsystem.view;
 
-import ec.edu.espe.alertsystem.controller.NaturalPersonDAO;
-import ec.edu.espe.alertsystem.controller.Validation;
+import ec.edu.espe.alertsystem.controller.NaturalPersonController;
 import ec.edu.espe.alertsystem.model.Address;
 import ec.edu.espe.alertsystem.model.NaturalPerson;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import utils.Validation;
 
 /**
  *
  * @author Paulo Ramos
  */
-
 public class FrmAddNaturalPerson extends javax.swing.JFrame {
 
     NaturalPerson naturalPerson = new NaturalPerson();
@@ -367,7 +366,21 @@ public class FrmAddNaturalPerson extends javax.swing.JFrame {
             return;
         }
 
-        readValues(); 
+        LocalDate selectedDate = dtBirthDate.getDate();
+
+        if (selectedDate == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de nacimiento.");
+            dtBirthDate.requestFocus();
+            return;
+        }
+
+        if (!selectedDate.isBefore(LocalDate.now())) {
+            JOptionPane.showMessageDialog(null, "La fecha de nacimiento debe ser anterior a la fecha actual.");
+            dtBirthDate.requestFocus();
+            return;
+        }
+
+        readValues();
 
         int option = JOptionPane.showConfirmDialog(
                 rootPane,
@@ -378,8 +391,8 @@ public class FrmAddNaturalPerson extends javax.swing.JFrame {
 
         if (option == JOptionPane.YES_OPTION) {
 
-            NaturalPersonDAO dao = new NaturalPersonDAO();
-            boolean saved = dao.save(naturalPerson);
+            NaturalPersonController controller = new NaturalPersonController();
+            boolean saved = controller.save(naturalPerson);
 
             if (saved) {
                 JOptionPane.showMessageDialog(rootPane,
@@ -405,88 +418,88 @@ public class FrmAddNaturalPerson extends javax.swing.JFrame {
         } else {
             txtName.requestFocus();
         }
-    
+
     }//GEN-LAST:event_btnSaveBussinesActionPerformed
 
     private void readValues() {
-    String name;
-    String identification;
-    String nationality;
-    Date birthDate;
-    String phone;
-    String email;
-    String occupation;
-    String gender;
+        String name;
+        String identification;
+        String nationality;
+        Date birthDate;
+        String phone;
+        String email;
+        String occupation;
+        String gender;
 
-    String city;
-    String street;
-    String sector;
+        String city;
+        String street;
+        String sector;
 
-    name = txtName.getText();
-    identification = txtIdentification.getText();
-    nationality = txtNationality.getText();
+        name = txtName.getText();
+        identification = txtIdentification.getText();
+        nationality = txtNationality.getText();
 
-    LocalDate localDate = dtBirthDate.getDate();
-    birthDate = java.sql.Date.valueOf(localDate);
+        LocalDate localDate = dtBirthDate.getDate();
+        birthDate = java.sql.Date.valueOf(localDate);
 
-    phone = txtPhone.getText();
-    email = txtEmail.getText();
-    occupation = txtOcuppation.getText();
+        phone = txtPhone.getText();
+        email = txtEmail.getText();
+        occupation = txtOcuppation.getText();
 
-    if (radGenderMale.isSelected()) {
-        gender = "Male";
-    } else {
-        gender = "Female";
+        if (radGenderMale.isSelected()) {
+            gender = "Male";
+        } else {
+            gender = "Female";
+        }
+
+        city = txtCity.getText();
+        street = txtStreet.getText();
+        sector = txtSector.getText();
+
+        Address address = new Address(city, street, sector);
+
+        naturalPerson = new NaturalPerson(name, identification, nationality, birthDate, phone, email, occupation, gender, address);
     }
 
-    city = txtCity.getText();
-    street = txtStreet.getText();
-    sector = txtSector.getText();
-
-    Address address = new Address(city, street, sector);
-
-    naturalPerson = new NaturalPerson(name, identification, nationality, birthDate, phone, email, occupation, gender, address);
-}
-
     private void emptyFields() {
-    txtName.setText("");
-    txtIdentification.setText("");
-    txtNationality.setText("");
-    dtBirthDate.setText("");
-    txtPhone.setText("");
-    txtEmail.setText("");
-    txtOcuppation.setText("");
-    radGenderFemale.setSelected(true);
+        txtName.setText("");
+        txtIdentification.setText("");
+        txtNationality.setText("");
+        dtBirthDate.setText("");
+        txtPhone.setText("");
+        txtEmail.setText("");
+        txtOcuppation.setText("");
+        radGenderFemale.setSelected(true);
 
-    txtCity.setText("");
-    txtStreet.setText("");
-    txtSector.setText("");
-}
+        txtCity.setText("");
+        txtStreet.setText("");
+        txtSector.setText("");
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-        logger.log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(() -> new FrmAddNaturalPerson().setVisible(true));
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new FrmAddNaturalPerson().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSaveBussines;
