@@ -2,22 +2,32 @@ package ec.edu.espe.alertsystem.view;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import ec.edu.espe.alertsystem.controller.MongoConnection;
+import ec.edu.espe.alertsystem.controller.PerformanceIndicatorController;
+import ec.edu.espe.alertsystem.model.Address;
+import ec.edu.espe.alertsystem.model.Business;
+import ec.edu.espe.alertsystem.model.Customer;
+import ec.edu.espe.alertsystem.model.NaturalPerson;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
+import static utils.Manage.loadCustomersComboBox;
 
 /**
  *
  * @author Paulo Ramos
  */
 public class FrmPerformanceIndicator extends javax.swing.JFrame {
+
+    private final PerformanceIndicatorController performanceController = new PerformanceIndicatorController();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmManageCustomer.class.getName());
 
@@ -28,6 +38,7 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
         initComponents();
         loadIndicatorAssistant();
         loadIndicatorCustomer();
+        loadCustomersComboBox(cmbCustomer, true);
     }
 
     /**
@@ -52,6 +63,8 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         cmbCustomer = new javax.swing.JComboBox<>();
         btnFindCustomer = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -65,17 +78,17 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(149, 149, 149)
                 .addComponent(jLabel1)
-                .addGap(107, 107, 107))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(200, 185, 255));
@@ -102,14 +115,13 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
+                .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +130,7 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(200, 185, 255));
@@ -170,7 +182,7 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
                 .addComponent(cmbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnFindCustomer)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2)
@@ -190,29 +202,60 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(200, 185, 255));
+
+        btnReturn.setBackground(new java.awt.Color(165, 215, 255));
+        btnReturn.setText("Volver al Menu");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnReturn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(btnReturn)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -223,8 +266,21 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbCustomerActionPerformed
 
     private void btnFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindCustomerActionPerformed
-        // TODO add your handling code here:
+        String selectedCustomer = cmbCustomer.getSelectedItem().toString();
+
+        if (selectedCustomer.equals("Todos")) {
+            loadIndicatorCustomer();
+        } else {
+            loadIndicatorCustomerByName(selectedCustomer);
+        }
     }//GEN-LAST:event_btnFindCustomerActionPerformed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        FrmAlertSystemMenuBoss menuBoss = new FrmAlertSystemMenuBoss();
+        menuBoss.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     private void loadIndicatorAssistant() {
 
@@ -242,64 +298,39 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
             }
         }
 
-        SimpleDateFormat mongoFormat = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
-
-        Date now = new Date();
-
         for (String assistant : assistants) {
-
-            int total = 0;
-            int completed = 0;
-            int delayed = 0;
 
             FindIterable<Document> tasks
                     = taskCollection.find(Filters.eq("assignedTo", assistant));
 
-            for (Document doc : tasks) {
-                total++;
+            Object[] row = performanceController.calculatePerformanceRow(
+                    "Asistente " + assistant,
+                    tasks,
+                    true
+            );
 
-                String status = doc.getString("status");
-                Object dateObj = doc.get("deliveryDate");
-
-                if ("Completada".equalsIgnoreCase(status)) {
-                    completed++;
-                }
-
-                if (!"Completada".equalsIgnoreCase(status) && dateObj != null) {
-                    try {
-                        Date limitDate;
-
-                        if (dateObj instanceof Date) {
-                            limitDate = (Date) dateObj;
-                        } else {
-                            String clean = dateObj.toString().replace("\u202F", " ").trim();
-                            limitDate = mongoFormat.parse(clean);
-                        }
-
-                        if (limitDate.before(now)) {
-                            delayed++;
-                        }
-
-                    } catch (Exception ex) {
-                    }
-                }
-            }
-
-            double cumplimiento = total == 0 ? 0 : (completed * 100.0) / total;
-            String desempeño
-                    = cumplimiento >= 90 ? "Excelente"
-                            : cumplimiento >= 70 ? "Bueno"
-                                    : cumplimiento >= 50 ? "Regular" : "Bajo";
-
-            model.addRow(new Object[]{
-                "Asistente " + assistant,
-                total,
-                completed,
-                delayed,
-                String.format("%.1f%%", cumplimiento),
-                desempeño
-            });
+            model.addRow(row);
         }
+    }
+
+    private void loadIndicatorCustomerByName(String customerName) {
+
+        DefaultTableModel model = (DefaultTableModel) tblIndicatorCustomer.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        FindIterable<Document> tasks
+                = taskCollection.find(Filters.eq("customer", customerName));
+
+        Object[] row = performanceController.calculatePerformanceRow(
+                customerName,
+                tasks,
+                false
+        );
+
+        model.addRow(row);
     }
 
     private void loadIndicatorCustomer() {
@@ -318,64 +349,18 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
             }
         }
 
-        SimpleDateFormat mongoFormat
-                = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
-
-        Date now = new Date();
-
         for (String customer : customers) {
-
-            int total = 0;
-            int completed = 0;
-            int pending = 0;
-            int delayed = 0;
 
             FindIterable<Document> tasks
                     = taskCollection.find(Filters.eq("customer", customer));
 
-            for (Document doc : tasks) {
+            Object[] row = performanceController.calculatePerformanceRow(
+                    customer,
+                    tasks,
+                    false
+            );
 
-                total++;
-
-                String status = doc.getString("status");
-                Object dateObj = doc.get("deliveryDate");
-
-                if ("Completada".equalsIgnoreCase(status)) {
-                    completed++;
-                } else {
-                    pending++;
-                }
-
-                if (!"Completada".equalsIgnoreCase(status) && dateObj != null) {
-                    try {
-                        Date limitDate;
-
-                        if (dateObj instanceof Date) {
-                            limitDate = (Date) dateObj;
-                        } else {
-                            String clean = dateObj.toString().replace("\u202F", " ").trim();
-                            limitDate = mongoFormat.parse(clean);
-                        }
-
-                        if (limitDate.before(now)) {
-                            delayed++;
-                        }
-
-                    } catch (Exception ex) {
-                    }
-                }
-            }
-
-            double cumplimiento = total == 0 ? 0 : (completed * 100.0) / total;
-
-            model.addRow(new Object[]{
-                customer,
-                total,
-                completed,
-                pending,
-                delayed,
-                String.format("%.1f%%", cumplimiento)
-            });
+            model.addRow(row);
         }
     }
 
@@ -406,12 +391,14 @@ public class FrmPerformanceIndicator extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFindCustomer;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JComboBox<String> cmbCustomer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

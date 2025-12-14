@@ -255,7 +255,24 @@ public class Validation {
         return date.isAfter(today);
     }
 
+    public static boolean isDateAfterToday(Date date) {
+        if (date == null) {
+            return false;
+        }
 
+        Date today = truncateToDate(new Date());
+        Date inputDate = truncateToDate(date);
 
+        return inputDate.after(today);
+    }
+
+    public static boolean isDateAfterToday(LocalDate date) {
+        if (date == null) {
+            return false;
+        }
+
+        LocalDate today = LocalDate.now();
+        return date.isAfter(today);
+    }
 
 }

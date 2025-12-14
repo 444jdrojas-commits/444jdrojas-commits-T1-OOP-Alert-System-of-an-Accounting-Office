@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystemV3/src/ec/edu/espe/AlertSystem/model/Document.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystemV3/src/ec/edu/espe/AlertSystem/controller/DataServiceController.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystemV3/src/ec/edu/espe/AlertSystem/controller/Json.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystemV3/src/ec/edu/espe/AlertSystem/model/NaturalPerson.java</file>
+            <file>file:/C:/Users/JOSUE/444jdrojas-commits-T1-OOP-Alert-System-of-an-Accounting-Office/06Code/AlertSystemV3/src/ec/edu/espe/AlertSystem/model/Address.java</file>
+        </group>
     </open-files>
 </project-private>

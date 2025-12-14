@@ -20,6 +20,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>ec.edu.espe.alertsystem.view.FrmAddNaturalPerson</exec.mainClass>
+        <exec.mainClass>ec.edu.espe.alertsystem.view.FrmAlertSystemSplash</exec.mainClass>
     </properties>
 </project>

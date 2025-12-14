@@ -28,6 +28,16 @@ public class MongoConnection {
             return null;
         }
     }
+    
+     public static MongoDatabase getDatabase() {
+
+        if (mongoClient == null) {
+            mongoClient = MongoClients.create(URI);
+        }
+
+        return mongoClient.getDatabase(DATABASE);
+
+    }
 }
 
     
