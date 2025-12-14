@@ -24,6 +24,7 @@ ec\edu\espe\alertsystem\view\FrmManageCustomer$2.class
 ec\edu\espe\alertsystem\model\Address.class
 ec\edu\espe\alertsystem\model\Audit.class
 ec\edu\espe\alertsystem\view\FrmAddBussines$2.class
+ec\edu\espe\alertsystem\view\FrmAlertSystemMenuBoss$8.class
 ec\edu\espe\alertsystem\controller\AssistantController.class
 ec\edu\espe\alertsystem\model\Task.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemMenuAssistant.class

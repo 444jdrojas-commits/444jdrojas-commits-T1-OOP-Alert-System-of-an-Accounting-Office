@@ -5,7 +5,7 @@ package ec.edu.espe.alertsystem.view;
  * @author JOSUE
  */
 public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmAlertSystemMenuBoss.class.getName());
 
     /**
@@ -37,6 +37,7 @@ public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         MnuTask = new javax.swing.JMenu();
         MnuManageTask = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         MnuAssistant = new javax.swing.JMenu();
         MnuPerformanceIndicator = new javax.swing.JMenuItem();
         MnuAlerts = new javax.swing.JMenuItem();
@@ -135,6 +136,14 @@ public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
         });
         MnuTask.add(MnuManageTask);
 
+        jMenuItem2.setText("Añadir Tarea");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        MnuTask.add(jMenuItem2);
+
         jMenuBar1.add(MnuTask);
 
         MnuAssistant.setText("Assistentes");
@@ -178,36 +187,38 @@ public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuExitActionPerformed
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_MnuExitActionPerformed
 
     private void MnuLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuLogOutActionPerformed
-      
-      FrmAlertSystemLogin frmAlertSystemLogin = new FrmAlertSystemLogin();
-      frmAlertSystemLogin.setVisible(true);
-      this.dispose();
+
+        FrmAlertSystemLogin frmAlertSystemLogin = new FrmAlertSystemLogin();
+        frmAlertSystemLogin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_MnuLogOutActionPerformed
 
     private void MnuManageCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuManageCustomerActionPerformed
-       FrmManageCustomer frmManageCustomer = new FrmManageCustomer();
-       frmManageCustomer.setVisible(true);
-       this.dispose();
+        FrmManageCustomer frmManageCustomer = new FrmManageCustomer();
+        frmManageCustomer.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_MnuManageCustomerActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        FrmInvoice frmInvoice = new FrmInvoice();
+        frmInvoice.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void MnuManageTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuManageTaskActionPerformed
-       FrmManageTask frmManageTask = new FrmManageTask();
-       frmManageTask.setVisible(true);
-       this.dispose();
-        
+        FrmManageTask frmManageTask = new FrmManageTask();
+        frmManageTask.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_MnuManageTaskActionPerformed
 
     private void MnuPerformanceIndicatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuPerformanceIndicatorActionPerformed
-       FrmPerformanceIndicator frmPerformanceIndicator = new FrmPerformanceIndicator();
-       frmPerformanceIndicator.setVisible(true);
+        FrmPerformanceIndicator frmPerformanceIndicator = new FrmPerformanceIndicator();
+        frmPerformanceIndicator.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MnuPerformanceIndicatorActionPerformed
 
@@ -215,8 +226,14 @@ public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
         FrmSeeMyAlerts frmSeeMyAlerts = new FrmSeeMyAlerts();
         frmSeeMyAlerts.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_MnuAlertsActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmTask frmTask = new FrmTask();
+        frmTask.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +275,7 @@ public class FrmAlertSystemMenuBoss extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

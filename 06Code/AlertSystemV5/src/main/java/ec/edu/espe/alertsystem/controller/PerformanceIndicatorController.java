@@ -47,7 +47,7 @@ public class PerformanceIndicatorController {
                         delayed++;
                     }
                 } catch (Exception ex) {
-                    // ignorar parseo
+                    
                 }
             }
         }
