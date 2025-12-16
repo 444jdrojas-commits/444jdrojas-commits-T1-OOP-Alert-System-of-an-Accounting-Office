@@ -9,7 +9,8 @@ import java.util.Date;
  */
 public class Document {
 
-
+    public Document() {
+    }
     private String name;
     private String typeDocument;
     private String status;
@@ -73,6 +74,18 @@ public class Document {
                 + "\n         Estado: " + status
                 + "\n         Dia de revision: " + (reviewDay != null ? sdf.format(reviewDay) : "No registrado")
                 + "\n         Detalles: " + (details != null && !details.isEmpty() ? details : "Sin detalles");
+    }
+
+    public Object get(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getString(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean containsKey(String document) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
   

@@ -1,14 +1,9 @@
 package ec.edu.espe.alertsystem.view;
 
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
-import ec.edu.espe.alertsystem.controller.MongoConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import ec.edu.espe.alertsystem.controller.TaskController;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import org.bson.Document;
+
 
 /**
  *
@@ -41,16 +36,16 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTasks = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCompleteTask = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(200, 185, 255));
 
         jPanel1.setBackground(new java.awt.Color(200, 185, 255));
 
-        jLabel1.setText("Ver Mis Tareas");
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("Ver Mis Tareas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,12 +106,18 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(200, 185, 255));
 
-        jButton1.setText("Aceptar");
-
-        jButton2.setText("Completar Tarea");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCompleteTask.setText("Completar Tarea");
+        btnCompleteTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCompleteTaskActionPerformed(evt);
+            }
+        });
+
+        btnReturn.setBackground(new java.awt.Color(165, 215, 255));
+        btnReturn.setText("Volver al Menu");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
             }
         });
 
@@ -125,20 +126,20 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jButton2)
+                .addGap(37, 37, 37)
+                .addComponent(btnReturn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(66, 66, 66))
+                .addComponent(btnCompleteTask)
+                .addGap(40, 40, 40))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(45, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(btnReturn)
+                    .addComponent(btnCompleteTask))
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,77 +169,29 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnCompleteTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteTaskActionPerformed
+        FrmCompleteTask completeTask = new FrmCompleteTask();
+        completeTask.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCompleteTaskActionPerformed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        FrmAlertSystemMenuBoss menuBoss = new FrmAlertSystemMenuBoss();
+        menuBoss.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
     private void loadSmallTaskTable() {
 
         DefaultTableModel model = (DefaultTableModel) tblTasks.getModel();
         model.setRowCount(0);
 
-        MongoCollection<Document> taskCollection
-                = MongoConnection.getConnection().getCollection("tasks");
+        TaskController controller = new TaskController();
 
-        FindIterable<Document> tasks
-                = taskCollection.find(Filters.eq("assignedTo", "1"));
+        List<Object[]> rows = controller.getTasksByAssistant("1");
 
-        SimpleDateFormat mongoFormat = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
-        SimpleDateFormat outFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        for (Document doc : tasks) {
-
-            String id = doc.get("id").toString();
-            String description = doc.getString("description");
-            String status = doc.getString("status");
-            String client = doc.getString("customer");
-
-            String delivery = "";
-
-            Object dateObj = doc.get("deliveryDate");
-
-            if (dateObj != null) {
-
-                if (dateObj instanceof Date) {
-                    delivery = outFormat.format((Date) dateObj);
-
-                } else if (dateObj instanceof String) {
-                    try {
-                        String clean = dateObj.toString().replace("\u202F", " ").trim();
-                        Date parsed = mongoFormat.parse(clean);
-                        delivery = outFormat.format(parsed);
-                    } catch (Exception e) {
-                        delivery = "";
-                    }
-                }
-
-            } else {
-
-                if (doc.containsKey("document")) {
-                    Document inner = (Document) doc.get("document");
-                    Object reviewObj = inner.get("reviewDay");
-
-                    if (reviewObj instanceof Date) {
-                        delivery = outFormat.format((Date) reviewObj);
-
-                    } else if (reviewObj instanceof String) {
-                        try {
-                            String clean = reviewObj.toString().replace("\u202F", " ").trim();
-                            Date parsed = mongoFormat.parse(clean);
-                            delivery = outFormat.format(parsed);
-                        } catch (Exception e) {
-                            delivery = "";
-                        }
-                    }
-                }
-            }
-
-            model.addRow(new Object[]{
-                id,
-                description,
-                status,
-                client,
-                delivery
-            });
+        for (Object[] row : rows) {
+            model.addRow(row);
         }
     }
 
@@ -268,8 +221,8 @@ public class FrmSeeMyTask extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCompleteTask;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
