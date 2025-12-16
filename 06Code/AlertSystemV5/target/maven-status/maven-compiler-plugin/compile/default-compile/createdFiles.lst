@@ -5,6 +5,7 @@ ec\edu\espe\alertsystem\view\FrmSeeMyAlerts$1.class
 ec\edu\espe\alertsystem\controller\InvoiceController.class
 ec\edu\espe\alertsystem\view\FrmPerformanceIndicator$1.class
 ec\edu\espe\alertsystem\view\FrmAssistant$5.class
+ec\edu\espe\alertsystem\view\FrmProgressBar.class
 ec\edu\espe\alertsystem\view\FrmManageCustomer$1.class
 ec\edu\espe\alertsystem\view\FrmAddBussines$1.class
 ec\edu\espe\alertsystem\view\FrmPerformanceIndicator.class
@@ -29,6 +30,7 @@ ec\edu\espe\alertsystem\controller\AssistantController.class
 ec\edu\espe\alertsystem\model\Task.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemMenuAssistant.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemMenuBoss.class
+ec\edu\espe\alertsystem\view\FrmProgressBar$1.class
 ec\edu\espe\alertsystem\view\FrmManageTask$1.class
 ec\edu\espe\alertsystem\model\Invoice.class
 ec\edu\espe\alertsystem\view\FrmInvoice.class
