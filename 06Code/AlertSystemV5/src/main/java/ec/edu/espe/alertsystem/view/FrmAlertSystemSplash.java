@@ -47,7 +47,7 @@ public class FrmAlertSystemSplash extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\EYS\\T5_OOP_Alert-System-of-an-Accounting-Office\\06Code\\AlertSystemV5\\src\\main\\resources\\pena.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pena.png"))); // NOI18N
         jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
