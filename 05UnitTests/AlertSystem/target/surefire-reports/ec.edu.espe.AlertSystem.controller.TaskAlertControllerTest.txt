@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+Test set: ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.253 s <<< FAILURE! -- in ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest
+ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest.testDaysRemaining -- Time elapsed: 0.156 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <7> but was: <6>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:161)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:632)
+	at ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest.testDaysRemaining(TaskAlertControllerTest.java:48)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest.testStatusAccordingDays -- Time elapsed: 0.014 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <A TIEMPO> but was: <   Proxima a vencer en 3 dia(s)>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at ec.edu.espe.AlertSystem.controller.TaskAlertControllerTest.testStatusAccordingDays(TaskAlertControllerTest.java:59)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
