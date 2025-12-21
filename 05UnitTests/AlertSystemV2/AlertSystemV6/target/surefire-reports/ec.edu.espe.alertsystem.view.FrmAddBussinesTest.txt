@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: ec.edu.espe.alertsystem.view.FrmAddBussinesTest
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 1.447 s <<< FAILURE! -- in ec.edu.espe.alertsystem.view.FrmAddBussinesTest
+ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldsClearDescription -- Time elapsed: 0.069 s <<< ERROR!
+java.lang.ClassCastException: class javax.swing.JTextArea cannot be cast to class javax.swing.JTextField (javax.swing.JTextArea and javax.swing.JTextField are in module java.desktop of loader 'bootstrap')
+	at ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldsClearDescription(FrmAddBussinesTest.java:195)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldTypeBussines -- Time elapsed: 0.033 s <<< ERROR!
+java.lang.NoSuchFieldException: txtTypeBussines
+	at java.base/java.lang.Class.getDeclaredField(Class.java:2384)
+	at ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldTypeBussines(FrmAddBussinesTest.java:81)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="1.447" tests="15" errors="2" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="24"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="sun.awt.enableExtraMouseButtons" value="true"/>
+    <property name="java.class.path" value="C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6\target\test-classes;C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6\target\classes;C:\Users\EYS\.m2\repository\com\github\lgooddatepicker\LGoodDatePicker\11.2.1\LGoodDatePicker-11.2.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\mongodb-driver-sync\4.11.1\mongodb-driver-sync-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\bson\4.11.1\bson-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\bson-record-codec\4.11.1\bson-record-codec-4.11.1.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\EYS\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\EYS\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\EYS\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\EYS\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;"/>
+    <property name="java.vm.vendor" value="Azul Systems, Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="http://www.azul.com/"/>
+    <property name="user.timezone" value="America/Guayaquil"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="24"/>
+    <property name="user.country" value="EC"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
+    <property name="sun.java.command" value="C:\Users\EYS\AppData\Local\Temp\surefire17133171197750733493\surefirebooter-20251220201222578_3.jar C:\Users\EYS\AppData\Local\Temp\surefire17133171197750733493 2025-12-20T20-12-22_183-jvmRun1 surefire-20251220201222578_1tmp surefire_0-20251220201222578_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="ec.edu.espe.alertsystem.view.**.*Test"/>
+    <property name="surefire.test.class.path" value="C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6\target\test-classes;C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6\target\classes;C:\Users\EYS\.m2\repository\com\github\lgooddatepicker\LGoodDatePicker\11.2.1\LGoodDatePicker-11.2.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\mongodb-driver-sync\4.11.1\mongodb-driver-sync-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\bson\4.11.1\bson-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.11.1.jar;C:\Users\EYS\.m2\repository\org\mongodb\bson-record-codec\4.11.1\bson-record-codec-4.11.1.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\EYS\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\EYS\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\EYS\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\EYS\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\EYS\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\EYS"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="C:\Program Files\Apache NetBeans\jdk"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\EYS\AppData\Local\Temp\surefire17133171197750733493\surefirebooter-20251220201222578_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="24.0.2+12"/>
+    <property name="user.name" value="EYS"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Zulu24.32+13-CA"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\Apache NetBeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\EYS\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="http://www.azul.com/support/"/>
+    <property name="java.io.tmpdir" value="C:\Users\EYS\AppData\Local\Temp\"/>
+    <property name="java.version" value="24.0.2"/>
+    <property name="user.dir" value="C:\Users\EYS\Desktop\paulo__\AlertSystemV6\AlertSystemV6"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin\;C:\Program Files\IVI Foundation\VISA\Win64\Bin\;C:\Program Files (x86)\National Instruments\Shared\LabVIEW CLI;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin;C:\Program Files (x86)\Dev-Cpp\MinGW64\x86_64-w64-mingw32\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\MinGW\bin;C:\Users\EYS\AppData\Local\Programs\Python\Python314\Scripts\;C:\Users\EYS\AppData\Local\Programs\Python\Python314\;C:\Users\EYS\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\EYS\AppData\Local\Programs\Python\Python313\;C:\Users\EYS\AppData\Local\Programs\Python\Launcher\;C:\Users\EYS\AppData\Local\Microsoft\WindowsApps;C:\Users\EYS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\EYS\AppData\Roaming\npm;C:\Users\EYS\AppData\Local\Programs\mongosh\;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Azul Systems, Inc."/>
+    <property name="java.vm.version" value="24.0.2+12"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="68.0"/>
+  </properties>
+  <testcase name="testDateParsingMonth" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.064"/>
+  <testcase name="testEmptyFieldsClearsLegalRepresentative" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.767"/>
+  <testcase name="testEmptyFieldsClearDescription" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.069">
+    <error message="class javax.swing.JTextArea cannot be cast to class javax.swing.JTextField (javax.swing.JTextArea and javax.swing.JTextField are in module java.desktop of loader &apos;bootstrap&apos;)" type="java.lang.ClassCastException"><![CDATA[java.lang.ClassCastException: class javax.swing.JTextArea cannot be cast to class javax.swing.JTextField (javax.swing.JTextArea and javax.swing.JTextField are in module java.desktop of loader 'bootstrap')
+	at ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldsClearDescription(FrmAddBussinesTest.java:195)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></error>
+  </testcase>
+  <testcase name="testDateParsingDay" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.005"/>
+  <testcase name="testEmptyFieldsClearSector" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.074"/>
+  <testcase name="testEmptyFieldsClearStreet" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.043"/>
+  <testcase name="testDateParsingYear" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.004"/>
+  <testcase name="testEmptyFieldsClearRuc" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.06"/>
+  <testcase name="testInstanceNotNull" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.042"/>
+  <testcase name="testEmptyFieldsClearEmail" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.041"/>
+  <testcase name="testEmptyFieldsClearPhone" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.034"/>
+  <testcase name="testEmptyFieldsClearsName" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.04"/>
+  <testcase name="testEmptyFieldTypeBussines" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.033">
+    <error message="txtTypeBussines" type="java.lang.NoSuchFieldException"><![CDATA[java.lang.NoSuchFieldException: txtTypeBussines
+	at java.base/java.lang.Class.getDeclaredField(Class.java:2384)
+	at ec.edu.espe.alertsystem.view.FrmAddBussinesTest.testEmptyFieldTypeBussines(FrmAddBussinesTest.java:81)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></error>
+  </testcase>
+  <testcase name="testEmptyFieldsClearCity" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.046"/>
+  <testcase name="testEmptyFieldsClearHour" classname="ec.edu.espe.alertsystem.view.FrmAddBussinesTest" time="0.045"/>
+</testsuite>
