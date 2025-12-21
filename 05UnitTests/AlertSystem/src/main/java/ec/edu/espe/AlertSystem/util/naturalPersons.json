@@ -1,0 +1,57 @@
+[{
+        "name": "Maria Lopez",
+        "identification": "0102030405",
+        "nationality": "Ecuatoriana",
+        "birthDate": "May 12, 1990, 12:00:00 AM",
+        "phone": "0998765432",
+        "email": "maria.lopez@gmail.com",
+        "ocuppation": "Ingeniera Civil",
+        "gender": "Mujer",
+        "address": {
+            "city": "Quito",
+            "street": "Av. Amazonas",
+            "sector": "La Mariscal"
+        }
+    }, {
+        "name": "Juan Perez",
+        "identification": "1777777777",
+        "nationality": "Ecuatoriana",
+        "birthDate": "Sep 23, 1985, 12:00:00 AM",
+        "phone": "0987654321",
+        "email": "juan.perez@hotmail.com",
+        "ocuppation": "Abogado",
+        "gender": "HOmbre",
+        "address": {
+            "city": "Guayaquil",
+            "street": "9 de Octubre",
+            "sector": "Centro"
+        }
+    }, {
+        "name": "Ana Gabriela Torres",
+        "identification": "1722898955",
+        "nationality": "Ecuatoriana",
+        "birthDate": "Mar 18, 1992, 12:00:00 AM",
+        "phone": "0976543210",
+        "email": "ana.torres@yahoo.com",
+        "ocuppation": "Medica General",
+        "gender": "Mujer",
+        "address": {
+            "city": "Quito",
+            "street": "Maldonado",
+            "sector": "San Bartolo"
+        }
+    }, {
+        "name": "Pedro Alejandro Ruiz",
+        "identification": "1748785988",
+        "nationality": "Ecuatoriana",
+        "birthDate": "Jul 30, 1988, 12:00:00 AM",
+        "phone": "0999999999",
+        "email": "pedro@outlook.com",
+        "ocuppation": "Contador publico",
+        "gender": "Hombre",
+        "address": {
+            "city": "Quito",
+            "street": "Maldonado",
+            "sector": "Villaflora"
+        }
+    }]

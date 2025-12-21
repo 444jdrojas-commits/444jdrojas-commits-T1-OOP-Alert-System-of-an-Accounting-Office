@@ -1,0 +1,100 @@
+[{
+        "id": 2,
+        "description": "Declaracion de impuestos",
+        "creationDate": "Nov 22, 2025, 6:07:33 PM",
+        "deliveryDate": "Dec 8, 2025, 12:00:00 AM",
+        "status": "Pendiente",
+        "customer": "Maria Lopez",
+        "document": {
+            "name": "Declaracion",
+            "typeDocument": "Tributario",
+            "status": "Pendiente",
+            "reviewDay": "Dec 5, 2025, 12:00:00 AM",
+            "details": "Validacion de gastos"
+        },
+        "assignedTo": "1"
+    }, {
+        "id": 1,
+        "description": "Elaborar Contrato",
+        "creationDate": "Nov 22, 2025, 6:00:33 PM",
+        "deliveryDate": "Dec 25, 2025, 12:00:00 AM",
+        "status": "Completada",
+        "customer": "Constructora Andes",
+        "document": {
+            "name": "Contrato",
+            "typeDocument": "Legal",
+            "status": "Pendiente",
+            "reviewDay": "Dec 20, 2025, 12:00:00 AM",
+            "details": "Revision de clausulas"
+        },
+        "assignedTo": "1"
+    }, {
+        "id": 4,
+        "description": "Balance Patrimonial",
+        "creationDate": "Nov 22, 2025, 6:10:36 PM",
+        "deliveryDate": "Dec 12, 2025, 12:00:00 AM",
+        "status": "Completada",
+        "customer": "Maria Lopez",
+        "document": {
+            "name": "Balance Patrimonial",
+            "typeDocument": "Contable",
+            "status": "En proceso",
+            "reviewDay": "Dec 5, 2025, 12:00:00 AM",
+            "details": "Registro de activos y pasivos"
+        },
+        "assignedTo": "1"
+    }, {
+        "id": 5,
+        "description": "Actualizacion bienes",
+        "creationDate": "Nov 22, 2025, 7:11:21 PM",
+        "deliveryDate": "Dec 29, 2025, 12:00:00 AM",
+        "status": "Completada",
+        "customer": "Maria Lopez",
+        "document": {
+            "name": "Inventario Patrimonial",
+            "typeDocument": "Patrimonial",
+            "status": "Pendiente",
+            "reviewDay": "Dec 25, 2025, 12:00:00 AM",
+            "details": "Registar"
+        },
+        "assignedTo": "1"
+    }, {
+        "id": 6,
+        "description": "Audotoria Interna",
+        "creationDate": "Nov 22, 2025, 7:16:37 PM",
+        "deliveryDate": "Dec 20, 2025, 12:00:00 AM",
+        "status": "Pendiente",
+        "customer": "Constructora Andes",
+        "assignedTo": "1"
+    }, {
+        "id": 3,
+        "description": "Estados Financieros",
+        "creationDate": "Nov 22, 2025, 6:09:41 PM",
+        "deliveryDate": "Dec 10, 2025, 12:00:00 AM",
+        "status": "Completada",
+        "customer": "Constructora Andes",
+        "assignedTo": "1"
+    }, {
+        "id": 7,
+        "description": "Informe Financiero",
+        "creationDate": "Nov 22, 2025, 11:57:27 PM",
+        "deliveryDate": "Dec 12, 2025, 12:00:00 AM",
+        "status": "Pendiente",
+        "customer": "Maria Lopez",
+        "document": {
+            "name": "Informe financier",
+            "typeDocument": "Informe",
+            "status": "Pendiente",
+            "reviewDay": "Dec 5, 2025, 12:00:00 AM",
+            "details": "Sin detalles"
+        },
+        "assignedTo": "1"
+    }, {
+        "id": 8,
+        "description": "Informe Tributario",
+        "creationDate": "Nov 23, 2025, 11:49:06 AM",
+        "deliveryDate": "Dec 18, 2025, 12:00:00 AM",
+        "status": "Pendiente",
+        "customer": "Constructora Andes",
+        "assignedTo": "2"
+    }]

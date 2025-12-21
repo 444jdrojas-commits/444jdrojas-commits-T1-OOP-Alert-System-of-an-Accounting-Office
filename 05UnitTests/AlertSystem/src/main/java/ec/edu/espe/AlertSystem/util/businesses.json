@@ -1,0 +1,30 @@
+[{
+        "nameBusiness": "Constructora Andes",
+        "legalRepresentative": "Carlos Ramirez",
+        "typeBusiness": "Construccion",
+        "address": {
+            "city": "Quito",
+            "street": "Av. Amazonas",
+            "sector": "La Mariscal"
+        },
+        "phone": "0999999999",
+        "email": "andesconstructora@gmail.com",
+        "ruc": "1787878787878",
+        "audit": {
+            "auditDate": "Dec 25, 2025, 12:00:00 AM",
+            "hour": "14:00",
+            "description": "Revision inicial de contratos y licencias"
+        }
+    }, {
+        "nameBusiness": "Innovatech Solutions",
+        "legalRepresentative": "Andrea Torres",
+        "typeBusiness": "tecnologia",
+        "address": {
+            "city": "Quito",
+            "street": "Bolivar",
+            "sector": "Centro"
+        },
+        "phone": "0989898989",
+        "email": "tech@gmail.com",
+        "ruc": "1777777777777"
+    }]

@@ -1,0 +1,25 @@
+[{
+        "invoiceNumber": 2,
+        "paymentDate": "Nov 22, 2025, 6:50:13 PM",
+        "amountPaid": 126.48,
+        "details": "Factura generada por tarea #4 - Balance Patrimonial | Cliente: Maria Lopez",
+        "status": "Pendiente"
+    }, {
+        "invoiceNumber": 1,
+        "paymentDate": "Nov 22, 2025, 6:42:28 PM",
+        "amountPaid": 45.67,
+        "details": "Factura generada por tarea #1 - Elaborar Contrato",
+        "status": "Pagada"
+    }, {
+        "invoiceNumber": 3,
+        "paymentDate": "Nov 22, 2025, 7:14:13 PM",
+        "amountPaid": 48.36,
+        "details": "Factura generada por tarea #5 - Actualizacion bienes personales | Cliente: Maria Lopez",
+        "status": "Pendiente"
+    }, {
+        "invoiceNumber": 4,
+        "paymentDate": "Nov 22, 2025, 8:29:00 PM",
+        "amountPaid": 78.95,
+        "details": "Factura generada por tarea #3 - Estados Financieros | Cliente: Constructora Andes",
+        "status": "Pendiente"
+    }]

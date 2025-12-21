@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+Test set: ec.edu.espe.AlertSystem.view.BossViewTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 0.225 s <<< FAILURE! -- in ec.edu.espe.AlertSystem.view.BossViewTest
+ec.edu.espe.AlertSystem.view.BossViewTest.testShowBossMenu -- Time elapsed: 0.071 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "ec.edu.espe.AlertSystem.view.BossView.showBossMenu()" because "instance" is null
+	at ec.edu.espe.AlertSystem.view.BossViewTest.testShowBossMenu(BossViewTest.java:46)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.AlertSystem.view.BossViewTest.testManageTasks -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "ec.edu.espe.AlertSystem.view.BossView.manageTasks()" because "instance" is null
+	at ec.edu.espe.AlertSystem.view.BossViewTest.testManageTasks(BossViewTest.java:68)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.AlertSystem.view.BossViewTest.testManageInvoices -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "ec.edu.espe.AlertSystem.view.BossView.manageInvoices()" because "instance" is null
+	at ec.edu.espe.AlertSystem.view.BossViewTest.testManageInvoices(BossViewTest.java:79)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.AlertSystem.view.BossViewTest.testCreateTask -- Time elapsed: 0.010 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "ec.edu.espe.AlertSystem.view.BossView.createTask()" because "instance" is null
+	at ec.edu.espe.AlertSystem.view.BossViewTest.testCreateTask(BossViewTest.java:90)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+ec.edu.espe.AlertSystem.view.BossViewTest.testManageClient -- Time elapsed: 0.003 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "ec.edu.espe.AlertSystem.view.BossView.manageClient()" because "instance" is null
+	at ec.edu.espe.AlertSystem.view.BossViewTest.testManageClient(BossViewTest.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
