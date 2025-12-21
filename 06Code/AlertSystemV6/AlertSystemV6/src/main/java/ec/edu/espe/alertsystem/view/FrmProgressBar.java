@@ -128,9 +128,9 @@ public class FrmProgressBar extends javax.swing.JFrame {
     }
     
     private void abrirSiguienteVentana() {
-        this.dispose(); 
-        FrmAlertSystemLogin frmAlertSystemLogin = new FrmAlertSystemLogin();
-        frmAlertSystemLogin.setVisible(true);
+
+        FrmAlertSystemSplash frmAlertSystemSplash = new FrmAlertSystemSplash();
+        frmAlertSystemSplash.setVisible(true);
         this.dispose();
     }
 }

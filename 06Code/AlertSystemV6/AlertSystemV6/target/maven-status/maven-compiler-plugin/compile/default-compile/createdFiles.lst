@@ -71,6 +71,7 @@ ec\edu\espe\alertsystem\view\FrmSeeMyAlerts.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemMenuBoss$5.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemLogin$1.class
 ec\edu\espe\alertsystem\view\FrmTask$3.class
+ec\edu\espe\alertsystem\view\FrmAlertSystemLogin$3.class
 ec\edu\espe\alertsystem\view\FrmCompleteTask$2.class
 ec\edu\espe\alertsystem\model\NaturalPerson.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemSplash.class

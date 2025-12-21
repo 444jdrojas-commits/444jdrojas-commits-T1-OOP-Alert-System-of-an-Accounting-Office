@@ -98,9 +98,9 @@ public class FrmAlertSystemSplash extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmProgressBar frmProgressBar = new FrmProgressBar();
-        frmProgressBar.setVisible(true);
-        this.setVisible(false);
+        FrmAlertSystemLogin frmAlertSystemLogin = new FrmAlertSystemLogin();
+        frmAlertSystemLogin.setVisible(true);
+        this.dispose();
        
     }//GEN-LAST:event_jButton1ActionPerformed
 

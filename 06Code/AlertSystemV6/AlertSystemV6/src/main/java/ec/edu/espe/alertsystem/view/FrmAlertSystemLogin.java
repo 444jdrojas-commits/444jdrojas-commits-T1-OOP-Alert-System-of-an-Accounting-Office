@@ -65,6 +65,13 @@ public class FrmAlertSystemLogin extends javax.swing.JFrame {
             }
         });
 
+        txtPassword.setText("***************");
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusGained(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -165,6 +172,12 @@ public class FrmAlertSystemLogin extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
+      if (txtPassword.getText().equals("***************")) {
+        txtPassword.setText("");
+    }
+    }//GEN-LAST:event_txtPasswordFocusGained
 
     /**
      * @param args the command line arguments
