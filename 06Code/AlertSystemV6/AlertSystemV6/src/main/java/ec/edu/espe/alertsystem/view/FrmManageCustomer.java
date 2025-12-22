@@ -2,14 +2,21 @@ package ec.edu.espe.alertsystem.view;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import ec.edu.espe.alertsystem.controller.BusinessController;
+import static ec.edu.espe.alertsystem.controller.BusinessController.deleteBussines;
+import static ec.edu.espe.alertsystem.controller.BusinessController.updateBussines;
 import ec.edu.espe.alertsystem.controller.MongoConnection;
 import ec.edu.espe.alertsystem.controller.NaturalPersonController;
+import static ec.edu.espe.alertsystem.controller.NaturalPersonController.deleteNaturalPerson;
+import static ec.edu.espe.alertsystem.controller.NaturalPersonController.updateNaturalPerson;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import utils.Validation;
 
 /**
@@ -52,7 +59,6 @@ public class FrmManageCustomer extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -193,16 +199,13 @@ public class FrmManageCustomer extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(200, 185, 255));
 
-        btnCreate.setBackground(new java.awt.Color(165, 215, 255));
-        btnCreate.setText("Añadir");
-        btnCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateActionPerformed(evt);
-            }
-        });
-
         btnUpdate.setBackground(new java.awt.Color(165, 215, 255));
         btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(165, 215, 255));
         btnDelete.setText("Eliminar");
@@ -222,9 +225,7 @@ public class FrmManageCustomer extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel6)
-                .addGap(46, 46, 46)
-                .addComponent(btnCreate)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(btnUpdate)
                 .addGap(18, 18, 18)
                 .addComponent(btnDelete)
@@ -235,7 +236,6 @@ public class FrmManageCustomer extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
                     .addComponent(jLabel6))
@@ -301,11 +301,9 @@ public class FrmManageCustomer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCreateActionPerformed
-
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+
+        String tipo = cmbTypeCustomer.getSelectedItem().toString();
         String nombre = txtName.getText().trim();
         String ruc = txtCiRuc.getText().trim();
 
@@ -323,11 +321,43 @@ public class FrmManageCustomer extends javax.swing.JFrame {
             return;
         }
 
-        //buscarClientes(nombre, ruc);
+        buscarClientes(tipo, nombre, ruc);
     }//GEN-LAST:event_btnFindActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+
+        int fila = tblCustomer.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente para eliminar");
+            return;
+        }
+
+        String id = tblCustomer.getValueAt(fila, 0).toString(); // CI / RUC
+        String tipo = tblCustomer.getValueAt(fila, 1).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro de eliminar este cliente?\nEsta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        if (tipo.equals("Persona Natural")) {
+            deleteNaturalPerson(id);
+        } else {
+            deleteBussines(id);
+        }
+
+        JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
+        loadTable();
+
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -335,11 +365,50 @@ public class FrmManageCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnReturnToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnToMenuActionPerformed
-       FrmAlertSystemMenuBoss frmAlertSystemMenuBoss = new FrmAlertSystemMenuBoss();
-       frmAlertSystemMenuBoss.setVisible(true);
-       this.dispose();
+        FrmAlertSystemMenuBoss frmAlertSystemMenuBoss = new FrmAlertSystemMenuBoss();
+        frmAlertSystemMenuBoss.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnReturnToMenuActionPerformed
-    
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+        int fila = tblCustomer.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente para actualizar");
+            return;
+        }
+
+        String id = tblCustomer.getValueAt(fila, 0).toString(); // CI / RUC
+        String tipo = tblCustomer.getValueAt(fila, 1).toString();
+        String nombre = tblCustomer.getValueAt(fila, 2).toString();
+        String telefono = tblCustomer.getValueAt(fila, 3).toString();
+        String correo = tblCustomer.getValueAt(fila, 4).toString();
+        String ciudad = tblCustomer.getValueAt(fila, 5).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea actualizar los datos del cliente?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        if (tipo.equals("Persona Natural")) {
+            updateNaturalPerson(id, nombre, telefono, correo, ciudad);
+        } else {
+            updateBussines(id, nombre, telefono, correo, ciudad);
+        }
+
+        JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
+        loadTable();
+
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     private void loadTable() {
 
         DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
@@ -354,12 +423,12 @@ public class FrmManageCustomer extends javax.swing.JFrame {
             String city = (address != null) ? address.getString("city") : "";
 
             model.addRow(new Object[]{
-                doc.getString("identification"), 
+                doc.getString("identification"),
                 "Persona Natural",
                 doc.getString("name"),
-                doc.getString("phone"), 
-                doc.getString("email"), 
-                city 
+                doc.getString("phone"),
+                doc.getString("email"),
+                city
             });
         }
 
@@ -378,14 +447,91 @@ public class FrmManageCustomer extends javax.swing.JFrame {
             model.addRow(new Object[]{
                 doc.getString("ruc"),
                 "Empresa",
-                name, 
-                doc.getString("phone"), 
-                doc.getString("email"), 
-                city 
+                name,
+                doc.getString("phone"),
+                doc.getString("email"),
+                city
             });
         }
     }
 
+    private void buscarClientes(String tipo, String nombre, String ruc) {
+
+        DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
+        model.setRowCount(0);
+
+        if (tipo.equals("Todos") || tipo.equals("Persona Natural")) {
+
+            MongoCollection<Document> naturalCollection
+                    = MongoConnection.getConnection().getCollection("naturalPersons");
+
+            List<Bson> filtros = new ArrayList<>();
+
+            if (!nombre.isEmpty()) {
+                filtros.add(Filters.regex("name", nombre, "i"));
+            }
+
+            if (!ruc.isEmpty()) {
+                filtros.add(Filters.eq("identification", ruc));
+            }
+
+            Bson query = filtros.isEmpty()
+                    ? new Document()
+                    : Filters.and(filtros);
+
+            for (Document doc : naturalCollection.find(query)) {
+
+                Document address = (Document) doc.get("address");
+                String city = (address != null) ? address.getString("city") : "";
+
+                model.addRow(new Object[]{
+                    doc.getString("identification"),
+                    "Persona Natural",
+                    doc.getString("name"),
+                    doc.getString("phone"),
+                    doc.getString("email"),
+                    city
+                });
+            }
+        }
+
+        if (tipo.equals("Todos") || tipo.equals("Empresa")) {
+
+            MongoCollection<Document> businessCollection
+                    = MongoConnection.getConnection().getCollection("businesses");
+
+            List<Bson> filtros = new ArrayList<>();
+
+            if (!nombre.isEmpty()) {
+                filtros.add(Filters.regex("nameBusiness", nombre, "i"));
+            }
+
+            if (!ruc.isEmpty()) {
+                filtros.add(Filters.eq("ruc", ruc));
+            }
+
+            Bson query = filtros.isEmpty()
+                    ? new Document()
+                    : Filters.and(filtros);
+
+            for (Document doc : businessCollection.find(query)) {
+
+                Document address = (Document) doc.get("address");
+                String city = (address != null) ? address.getString("city") : "";
+
+                model.addRow(new Object[]{
+                    doc.getString("ruc"),
+                    "Empresa",
+                    doc.getString("nameBusiness"),
+                    doc.getString("phone"),
+                    doc.getString("email"),
+                    city
+                });
+            }
+        }
+    }
+
+  
     /**
      * @param args the command line arguments
      */
@@ -412,7 +558,6 @@ public class FrmManageCustomer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnReturnToMenu;

@@ -9,8 +9,10 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -73,4 +75,23 @@ public class AssistantController {
 
         return list;
     }
+
+    public static Map<String, String> getAssistantMap() {
+
+        Map<String, String> map = new HashMap<>();
+
+        MongoCollection<Document> assistants
+                = MongoConnection.getConnection().getCollection("assistants");
+
+        for (Document doc : assistants.find()) {
+            map.put(
+                    String.valueOf(doc.get("id")), 
+                    doc.getString("name")
+            );
+
+        }
+
+        return map;
+    }
+
 }

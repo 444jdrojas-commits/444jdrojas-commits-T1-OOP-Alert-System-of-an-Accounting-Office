@@ -1,12 +1,15 @@
 package ec.edu.espe.alertsystem.controller;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import ec.edu.espe.alertsystem.model.Address;
 import ec.edu.espe.alertsystem.model.NaturalPerson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -63,5 +66,35 @@ public class NaturalPersonController {
 
         return list;
     }
+
+    public static void deleteNaturalPerson(String ci) {
+
+        MongoCollection<Document> col
+                = MongoConnection.getConnection().getCollection("naturalPersons");
+
+        Bson filtro = Filters.eq("identification", ci);
+
+        col.deleteOne(filtro);
+    }
+
+    public static void updateNaturalPerson(String ci, String nombre,
+            String telefono, String correo, String ciudad) {
+
+        MongoCollection<Document> col
+                = MongoConnection.getConnection().getCollection("naturalPersons");
+
+        Bson filtro = Filters.eq("identification", ci);
+
+        Bson update = Updates.combine(
+                Updates.set("name", nombre),
+                Updates.set("phone", telefono),
+                Updates.set("email", correo),
+                Updates.set("address.city", ciudad)
+        );
+
+        col.updateOne(filtro, update);
+    }
+    
+    
 
 }

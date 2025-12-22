@@ -1,13 +1,23 @@
 package ec.edu.espe.alertsystem.view;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import ec.edu.espe.alertsystem.controller.AssistantController;
 import ec.edu.espe.alertsystem.controller.MongoConnection;
+import ec.edu.espe.alertsystem.controller.TaskController;
+import ec.edu.espe.alertsystem.model.Task;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import utils.Validation;
 
 /**
@@ -24,6 +34,7 @@ public class FrmManageTask extends javax.swing.JFrame {
     public FrmManageTask() {
         initComponents();
         loadTaskTable();
+        loadTaskTableWithFilters("", "Todos", "Todos");
     }
 
     /**
@@ -51,7 +62,6 @@ public class FrmManageTask extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTask = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -120,7 +130,7 @@ public class FrmManageTask extends javax.swing.JFrame {
             }
         });
 
-        cmbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Pendiente", "En Proceso", "Completado", "Atrasado" }));
+        cmbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Pendiente", "Completada" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -200,19 +210,21 @@ public class FrmManageTask extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(200, 185, 255));
 
-        btnCreate.setBackground(new java.awt.Color(165, 215, 255));
-        btnCreate.setText("Añadir");
-        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setBackground(new java.awt.Color(165, 215, 255));
+        btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
-        btnUpdate.setBackground(new java.awt.Color(165, 215, 255));
-        btnUpdate.setText("Actualizar");
-
         btnDelete.setBackground(new java.awt.Color(165, 215, 255));
         btnDelete.setText("Eliminar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Opciones:");
@@ -224,20 +236,17 @@ public class FrmManageTask extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel6)
-                .addGap(46, 46, 46)
-                .addComponent(btnCreate)
-                .addGap(18, 18, 18)
+                .addGap(136, 136, 136)
                 .addComponent(btnUpdate)
                 .addGap(18, 18, 18)
                 .addComponent(btnDelete)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(320, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
                     .addComponent(jLabel6))
@@ -302,18 +311,22 @@ public class FrmManageTask extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-
-    }//GEN-LAST:event_btnCreateActionPerformed
-
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+
         String nombre = txtName.getText().trim();
 
         if (!nombre.isEmpty() && !Validation.isAlphabetic(nombre)) {
-            JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras.");
+            JOptionPane.showMessageDialog(this, "El nombre solo debe contener letras.");
             txtName.setText("");
             txtName.requestFocus();
+            return;
         }
+
+        String asistente = cmbAssistant.getSelectedItem().toString();
+        String estado = cmbState.getSelectedItem().toString();
+
+        loadTaskTableWithFilters(nombre, asistente, estado);
+
 
     }//GEN-LAST:event_btnFindActionPerformed
 
@@ -323,47 +336,175 @@ public class FrmManageTask extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_btnReturnToMenuActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+        int fila = tblTask.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una tarea");
+            return;
+        }
+
+        int id = Integer.parseInt(tblTask.getValueAt(fila, 0).toString());
+        String description = tblTask.getValueAt(fila, 1).toString();
+        String customer = tblTask.getValueAt(fila, 2).toString();
+        String status = tblTask.getValueAt(fila, 3).toString();
+        String assistantName = tblTask.getValueAt(fila, 4).toString();
+        String deliveryDate = tblTask.getValueAt(fila, 5).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea actualizar la tarea?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        TaskController.updateTask(id, description, customer, status, assistantName, deliveryDate);
+
+        JOptionPane.showMessageDialog(this, "Tarea actualizada correctamente");
+        loadTaskTable();
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int fila = tblTask.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione una tarea para eliminar");
+            return;
+        }
+
+        int id = Integer.parseInt(
+                tblTask.getValueAt(fila, 0).toString()
+        );
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro de eliminar esta tarea?\nEsta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean deleted = TaskController.deleteTask(id);
+
+        if (deleted) {
+            JOptionPane.showMessageDialog(this,
+                    "Tarea eliminada correctamente");
+            loadTaskTable();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Error al eliminar la tarea");
+        }
+
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
     private void loadTaskTable() {
 
         DefaultTableModel model = (DefaultTableModel) tblTask.getModel();
         model.setRowCount(0);
 
-        MongoCollection<Document> taskCollection = MongoConnection.getConnection().getCollection("tasks");
+        MongoCollection<org.bson.Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
 
-        for (Document doc : taskCollection.find()) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 
-            String id = doc.get("id").toString();
-            String description = doc.getString("description");
-            String client = doc.getString("customer");
-            String status = doc.getString("status");
-            String assistant = doc.getString("assistant");
+        for (org.bson.Document doc : taskCollection.find()) {
 
-            String dateString = "";
             Object dateObj = doc.get("deliveryDate");
+            String dateString = "";
 
             if (dateObj instanceof Date) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
                 dateString = sdf.format((Date) dateObj);
-
             } else if (dateObj instanceof String) {
-                try {
-                    SimpleDateFormat parser = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.ENGLISH);
-                    Date parsed = parser.parse(dateObj.toString());
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-                    dateString = sdf.format(parsed);
-
-                } catch (Exception e) {
-                    dateString = dateObj.toString();
-                }
+                dateString = dateObj.toString();
             }
 
             model.addRow(new Object[]{
-                id,
-                description,
-                client,
-                status,
-                assistant,
+                doc.getInteger("id"),
+                doc.getString("description"),
+                doc.getString("customer"),
+                doc.getString("status"),
+                doc.getString("assignedTo"),
+                dateString
+            });
+        }
+    }
+
+    private void findTask(String estado, String asistente) {
+
+        DefaultTableModel model = (DefaultTableModel) tblTask.getModel();
+        model.setRowCount(0);
+
+        MongoCollection<Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        List<Bson> filtros = new ArrayList<>();
+
+        if (!estado.equals("Todos")) {
+            filtros.add(Filters.eq("status", estado));
+        }
+
+        if (!asistente.isEmpty()) {
+            filtros.add(Filters.regex("assistantName", asistente, "i"));
+        }
+
+        Bson query = filtros.isEmpty()
+                ? new Document()
+                : Filters.and(filtros);
+
+        for (Document doc : taskCollection.find(query)) {
+
+            model.addRow(new Object[]{
+                doc.getInteger("id"),
+                doc.getString("description"),
+                doc.getString("customer"),
+                doc.getString("status"),
+                doc.getString("assistantName"),
+                doc.getString("deliveryDate")
+            });
+        }
+    }
+
+    private void loadTaskTableWithFilters(String cliente, String asistente, String estado) {
+
+        DefaultTableModel model = (DefaultTableModel) tblTask.getModel();
+        model.setRowCount(0);
+
+        TaskController controller = new TaskController();
+        List<Task> tasks = controller.getTasksWithFilters(cliente, asistente, estado);
+
+        Map<String, String> assistantMap = AssistantController.getAssistantMap();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+
+        for (Task task : tasks) {
+
+            String dateString = "";
+            if (task.getDeliveryDate() != null) {
+                dateString = sdf.format(task.getDeliveryDate());
+            }
+
+            String assistantName = assistantMap.getOrDefault(
+                    task.getAssignedTo(),
+                    "Desconocido"
+            );
+
+            model.addRow(new Object[]{
+                task.getId(),
+                task.getDescription(),
+                task.getCustomer(),
+                task.getStatus(),
+                assistantName,
                 dateString
             });
         }
@@ -395,7 +536,6 @@ public class FrmManageTask extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnReturnToMenu;

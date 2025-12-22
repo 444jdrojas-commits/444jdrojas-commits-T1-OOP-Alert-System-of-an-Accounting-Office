@@ -1,10 +1,12 @@
 package ec.edu.espe.alertsystem.view;
 
 import com.mongodb.client.MongoCollection;
+import ec.edu.espe.alertsystem.controller.InvoiceController;
 import ec.edu.espe.alertsystem.controller.MongoConnection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 
@@ -22,6 +24,8 @@ public class FrmInvoice extends javax.swing.JFrame {
     public FrmInvoice() {
         initComponents();
         loadInvoicesTable();
+        calcularTotalTable();
+        updateSumaTotal();
     }
 
     /**
@@ -38,8 +42,11 @@ public class FrmInvoice extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInvoice = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnReturn = new javax.swing.JButton();
+        btnCompletePayment = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,32 +76,44 @@ public class FrmInvoice extends javax.swing.JFrame {
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Numero de Factura", "Dia de Pago", "Monto a Pagar", "Detalles", "Estado"
+                "Numero de Factura", "Dia de Pago", "Subtotal", "Total", "Detalles", "Estado"
             }
         ));
         jScrollPane1.setViewportView(tblInvoice);
+
+        jLabel2.setText("Total:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(270, 270, 270)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(200, 185, 255));
@@ -107,6 +126,14 @@ public class FrmInvoice extends javax.swing.JFrame {
             }
         });
 
+        btnCompletePayment.setBackground(new java.awt.Color(165, 215, 255));
+        btnCompletePayment.setText("Completar Pago");
+        btnCompletePayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompletePaymentActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -114,13 +141,17 @@ public class FrmInvoice extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnReturn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCompletePayment)
+                .addGap(178, 178, 178))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(btnReturn)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnReturn)
+                    .addComponent(btnCompletePayment))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -143,9 +174,9 @@ public class FrmInvoice extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -158,45 +189,130 @@ public class FrmInvoice extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
 
-  
-    private void loadInvoicesTable() {
-
-    DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
-    model.setRowCount(0);
-
-    MongoCollection<Document> collection =
-            MongoConnection.getDatabase().getCollection("invoices");
-
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-    for (Document doc : collection.find()) {
-
-        int invoiceNumber = doc.getInteger("invoiceNumber", 0);
-
-        Object paymentObj = doc.get("paymentDay");
-        String paymentDay = "";
-
-        if (paymentObj instanceof Date) {
-            paymentDay = dateFormat.format((Date) paymentObj);
-        } else if (paymentObj != null) {
-            paymentDay = paymentObj.toString();
+    private void btnCompletePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompletePaymentActionPerformed
+        int selectedRow = tblInvoice.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una factura para completar el pago.");
+            return;
         }
 
-        double amountPaid = doc.getDouble("amountPaid");
-        String details = doc.getString("details");
-        String status = doc.getString("status");
+        String status = (String) tblInvoice.getValueAt(selectedRow, 5); // Columna Estado
+        if ("Pagado".equalsIgnoreCase(status)) {
+            JOptionPane.showMessageDialog(this, "La factura ya está pagada.");
+            return;
+        }
 
-        model.addRow(new Object[]{
-            invoiceNumber,
-            paymentDay,
-            amountPaid,
-            details,
-            status
-        });
+        String inputDate = JOptionPane.showInputDialog(this, "Ingrese fecha de pago (dd/MM/yyyy):");
+        if (inputDate == null || inputDate.isEmpty()) {
+            return;
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date paymentDate = sdf.parse(inputDate);
+
+            int invoiceNumber = (int) tblInvoice.getValueAt(selectedRow, 0);
+
+            InvoiceController.actualizarPagoFactura(invoiceNumber, paymentDate);
+
+            loadInvoicesTable();
+            calcularTotalTable();
+            updateSumaTotal();
+
+            JOptionPane.showMessageDialog(this, "Pago completado exitosamente.");
+
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido.");
+        }
+    }//GEN-LAST:event_btnCompletePaymentActionPerformed
+
+    private void loadInvoicesTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
+        model.setRowCount(0);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Document doc : InvoiceController.getInvoices()) {
+
+            int invoiceNumber = doc.getInteger("invoiceNumber", 0);
+
+            String status = doc.getString("status");
+
+            Object paymentObj = doc.get("paymentDate");
+            String paymentDate = "";
+
+            if (!"Pendiente".equalsIgnoreCase(status)) {
+                if (paymentObj instanceof Date) {
+                    paymentDate = dateFormat.format((Date) paymentObj);
+                } else if (paymentObj != null) {
+                    paymentDate = paymentObj.toString();
+                }
+            }
+
+            double subtotal = doc.getDouble("amountPaid");
+            double total = InvoiceController.calcularTotal(subtotal);
+
+            String details = doc.getString("details");
+
+            model.addRow(new Object[]{
+                invoiceNumber,
+                paymentDate,
+                String.format("%.2f", subtotal),
+                String.format("%.2f", total),
+                details,
+                status
+            });
+        }
     }
-}
 
+    private void calcularTotalTable() {
 
+        DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+
+            Object subtotalObj = model.getValueAt(i, 2);
+
+            if (subtotalObj != null) {
+                String subtotalStr = subtotalObj.toString().replace(",", ".");
+
+                try {
+                    double subtotal = Double.parseDouble(subtotalStr);
+                    double total = InvoiceController.calcularTotal(subtotal);
+
+                    model.setValueAt(
+                            String.format("%.2f", total), // Total con 2 decimales
+                            i,
+                            3
+                    );
+                } catch (NumberFormatException e) {
+                    System.err.println("Error parseando subtotal en fila " + i + ": " + subtotalObj);
+                }
+            }
+        }
+    }
+
+    private void updateSumaTotal() {
+        DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
+        double suma = 0.0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object totalObj = model.getValueAt(i, 3); // Columna 3 = Total
+
+            if (totalObj != null) {
+                String totalStr = totalObj.toString().replace(",", "."); // reemplazar coma
+                try {
+                    double total = Double.parseDouble(totalStr);
+                    suma += total;
+                } catch (NumberFormatException e) {
+                    System.err.println("Error parseando total en fila " + i + ": " + totalObj);
+                }
+            }
+        }
+
+        jLabel3.setText(String.format("%.2f", suma));
+    }
 
     /**
      * @param args the command line arguments
@@ -224,8 +340,11 @@ public class FrmInvoice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCompletePayment;
     private javax.swing.JButton btnReturn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

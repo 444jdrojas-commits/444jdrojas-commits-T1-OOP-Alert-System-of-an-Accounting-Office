@@ -17,6 +17,7 @@ import utils.Validation;
  * @author Paulo Ramos
  */
 public class FrmCompleteTask extends javax.swing.JFrame {
+
     private final Map<String, Task> taskById = new HashMap<>();
     private final TaskController taskController = new TaskController();
     private final InvoiceController invoiceController = new InvoiceController();
@@ -47,8 +48,6 @@ public class FrmCompleteTask extends javax.swing.JFrame {
         cmbIdTask = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        dtPaymentDay = new com.github.lgooddatepicker.components.DatePicker();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
@@ -85,25 +84,20 @@ public class FrmCompleteTask extends javax.swing.JFrame {
 
         jLabel3.setText("Precio:");
 
-        jLabel4.setText("Dia de Pago:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(45, 45, 45)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtPaymentDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(cmbIdTask, javax.swing.GroupLayout.Alignment.LEADING, 0, 111, Short.MAX_VALUE)
-                        .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cmbIdTask, javax.swing.GroupLayout.Alignment.LEADING, 0, 111, Short.MAX_VALUE)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,11 +110,7 @@ public class FrmCompleteTask extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(dtPaymentDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(200, 185, 255));
@@ -132,8 +122,8 @@ public class FrmCompleteTask extends javax.swing.JFrame {
             }
         });
 
-        btnReturn.setBackground(new java.awt.Color(165, 215, 255));
         btnReturn.setText("Volver al Menu");
+        btnReturn.setBackground(new java.awt.Color(165, 215, 255));
         btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReturnActionPerformed(evt);
@@ -189,12 +179,13 @@ public class FrmCompleteTask extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         String priceText = txtPrice.getText().trim();
 
         if (!Validation.isIntegerOrDecimal(priceText)) {
             JOptionPane.showMessageDialog(
                     this,
-                    "El precio debe ser un número entero o decimal",
+                    "El precio debe ser un número válido",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -204,13 +195,6 @@ public class FrmCompleteTask extends javax.swing.JFrame {
 
         double amount = Double.parseDouble(priceText);
 
-        LocalDate localDate = dtPaymentDay.getDate();
-        if (localDate == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione una fecha de pago");
-            return;
-        }
-        Date paymentDate = java.sql.Date.valueOf(localDate);
-
         String selectedId = (String) cmbIdTask.getSelectedItem();
         Task task = taskById.get(selectedId);
 
@@ -219,15 +203,28 @@ public class FrmCompleteTask extends javax.swing.JFrame {
             return;
         }
 
-        String docName = (task.getDocument() != null) ? task.getDocument().getName() : "Sin documento";
-        String details = "Factura generada por tarea #" + task.getId()
-        + " - " + docName
-        + " | Cliente: " + task.getCustomer();
+        if ("Completada".equalsIgnoreCase(task.getStatus())) {
+            JOptionPane.showMessageDialog(this, "Esta tarea ya está completada");
+            return;
+        }
 
-        invoiceController.saveInvoice(paymentDate, amount, details);
+        String docName = (task.getDocument() != null)
+                ? task.getDocument().getName()
+                : "Sin documento";
 
-        JOptionPane.showMessageDialog(this, "Factura guardada correctamente");
+        String details = "Factura generada por tarea #"
+                + task.getId()
+                + " - " + docName
+                + " | Cliente: " + task.getCustomer();
 
+        invoiceController.saveInvoice(amount, details);
+
+        TaskController.markTaskAsCompleted(task.getId());
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Factura creada y tarea marcada como COMPLETADA"
+        );
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -238,21 +235,19 @@ public class FrmCompleteTask extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void loadTaskComboBox() {
-    cmbIdTask.removeAllItems();
-    taskById.clear();
+        cmbIdTask.removeAllItems();
+        taskById.clear();
 
-    List<Task> tasks = taskController.getTasksForAssistant(Session.getAssistantId());
-    for (Task task : tasks) {
-        String id = String.valueOf(task.getId());
-        taskById.put(id, task);
-        cmbIdTask.addItem(id); 
-        System.out.println("SESSION assistantId=[" + Session.getAssistantId() + "]");
-        
+        List<Task> tasks = taskController.getTasksForAssistant(Session.getAssistantId());
+        for (Task task : tasks) {
+            String id = String.valueOf(task.getId());
+            taskById.put(id, task);
+            cmbIdTask.addItem(id);
+            System.out.println("SESSION assistantId=[" + Session.getAssistantId() + "]");
+
+        }
 
     }
-
-}
-
 
     /**
      * @param args the command line arguments
@@ -282,12 +277,10 @@ public class FrmCompleteTask extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReturn;
     private javax.swing.JComboBox<String> cmbIdTask;
-    private com.github.lgooddatepicker.components.DatePicker dtPaymentDay;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

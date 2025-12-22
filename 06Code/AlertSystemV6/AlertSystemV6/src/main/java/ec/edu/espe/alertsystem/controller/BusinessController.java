@@ -1,12 +1,15 @@
 package ec.edu.espe.alertsystem.controller;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import ec.edu.espe.alertsystem.model.Address;
 import ec.edu.espe.alertsystem.model.Audit;
 import ec.edu.espe.alertsystem.model.Business;
 import org.bson.Document;
 import java.util.List;
 import java.util.ArrayList;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -75,6 +78,34 @@ public class BusinessController {
         }
 
         return list;
+    }
+
+    public static void deleteBussines(String ruc) {
+
+        MongoCollection<Document> col
+                = MongoConnection.getConnection().getCollection("businesses");
+
+        Bson filtro = Filters.eq("ruc", ruc);
+
+        col.deleteOne(filtro);
+    }
+
+    public static void updateBussines(String ruc, String nombre,
+            String telefono, String correo, String ciudad) {
+
+        MongoCollection<Document> col
+                = MongoConnection.getConnection().getCollection("businesses");
+
+        Bson filtro = Filters.eq("ruc", ruc);
+
+        Bson update = Updates.combine(
+                Updates.set("nameBusiness", nombre),
+                Updates.set("phone", telefono),
+                Updates.set("email", correo),
+                Updates.set("address.city", ciudad)
+        );
+
+        col.updateOne(filtro, update);
     }
 
 }

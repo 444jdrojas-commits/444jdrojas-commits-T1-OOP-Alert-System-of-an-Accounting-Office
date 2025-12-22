@@ -129,47 +129,172 @@ public class TaskController {
 
         return rows;
     }
+
     public List<Task> getTasksForAssistant(String assistantId) {
-    List<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
-    FindIterable<org.bson.Document> docs =
-            getCollection().find(Filters.eq("assignedTo", assistantId));
-    for (org.bson.Document doc : docs) {
-        Task task = new Task();
+        FindIterable<org.bson.Document> docs
+                = getCollection().find(Filters.eq("assignedTo", assistantId));
+        for (org.bson.Document doc : docs) {
+            Task task = new Task();
 
-        Integer id = doc.getInteger("id");
-        task.setId(id != null ? id : 0);
+            Integer id = doc.getInteger("id");
+            task.setId(id != null ? id : 0);
 
-        task.setDescription(doc.getString("description"));
-        task.setStatus(doc.getString("status"));
-        task.setCustomer(doc.getString("customer"));
-        task.setAssignedTo(doc.getString("assignedTo"));
+            task.setDescription(doc.getString("description"));
+            task.setStatus(doc.getString("status"));
+            task.setCustomer(doc.getString("customer"));
+            task.setAssignedTo(doc.getString("assignedTo"));
 
-        Object creationObj = doc.get("creationDate");
-        if (creationObj instanceof Date) task.setCreationDate((Date) creationObj);
+            Object creationObj = doc.get("creationDate");
+            if (creationObj instanceof Date) {
+                task.setCreationDate((Date) creationObj);
+            }
 
-        Object deliveryObj = doc.get("deliveryDate");
-        if (deliveryObj instanceof Date) task.setDeliveryDate((Date) deliveryObj);
+            Object deliveryObj = doc.get("deliveryDate");
+            if (deliveryObj instanceof Date) {
+                task.setDeliveryDate((Date) deliveryObj);
+            }
 
-        // Documento embebido
-        if (doc.containsKey("document") && doc.get("document") instanceof org.bson.Document) {
-            org.bson.Document ddoc = (org.bson.Document) doc.get("document");
-            Document d = new Document();
-            d.setName(ddoc.getString("name"));
-            d.setTypeDocument(ddoc.getString("typeDocument"));
-            d.setStatus(ddoc.getString("status"));
-            d.setDetails(ddoc.getString("details"));
+            if (doc.containsKey("document") && doc.get("document") instanceof org.bson.Document) {
+                org.bson.Document ddoc = (org.bson.Document) doc.get("document");
+                Document d = new Document();
+                d.setName(ddoc.getString("name"));
+                d.setTypeDocument(ddoc.getString("typeDocument"));
+                d.setStatus(ddoc.getString("status"));
+                d.setDetails(ddoc.getString("details"));
 
-            Object reviewObj = ddoc.get("reviewDay");
-            if (reviewObj instanceof Date) d.setReviewDay((Date) reviewObj);
+                Object reviewObj = ddoc.get("reviewDay");
+                if (reviewObj instanceof Date) {
+                    d.setReviewDay((Date) reviewObj);
+                }
 
-            task.setDocument(d);
+                task.setDocument(d);
+            }
+
+            tasks.add(task);
         }
 
-        tasks.add(task);
+        return tasks;
+
     }
 
-    return tasks;
-}
+    public List<Task> getTasksWithFilters(
+            String cliente,
+            String asistente,
+            String estado) {
+
+        List<Task> tasks = new ArrayList<>();
+        List<org.bson.conversions.Bson> filtros = new ArrayList<>();
+
+        if (cliente != null && !cliente.isEmpty()) {
+            filtros.add(Filters.regex("customer", cliente, "i"));
+        }
+
+        if (asistente != null && !asistente.equalsIgnoreCase("Todos")) {
+            filtros.add(Filters.eq("assignedTo", asistente));
+        }
+
+        if (estado != null && !estado.equalsIgnoreCase("Todos")) {
+            filtros.add(Filters.eq("status", estado));
+        }
+
+        org.bson.conversions.Bson query
+                = filtros.isEmpty() ? new org.bson.Document() : Filters.and(filtros);
+
+        FindIterable<org.bson.Document> docs = getCollection().find(query);
+
+        for (org.bson.Document doc : docs) {
+
+            Task task = new Task();
+
+            Integer id = doc.getInteger("id");
+            task.setId(id != null ? id : 0);
+
+            task.setDescription(doc.getString("description"));
+            task.setStatus(doc.getString("status"));
+            task.setCustomer(doc.getString("customer"));
+            task.setAssignedTo(doc.getString("assignedTo"));
+
+            Object creationObj = doc.get("creationDate");
+            if (creationObj instanceof Date) {
+                task.setCreationDate((Date) creationObj);
+            }
+
+            Object deliveryObj = doc.get("deliveryDate");
+            if (deliveryObj instanceof Date) {
+                task.setDeliveryDate((Date) deliveryObj);
+            }
+
+            if (doc.containsKey("document") && doc.get("document") instanceof org.bson.Document) {
+                org.bson.Document ddoc = (org.bson.Document) doc.get("document");
+                Document d = new Document();
+
+                d.setName(ddoc.getString("name"));
+                d.setTypeDocument(ddoc.getString("typeDocument"));
+                d.setStatus(ddoc.getString("status"));
+                d.setDetails(ddoc.getString("details"));
+
+                Object reviewObj = ddoc.get("reviewDay");
+                if (reviewObj instanceof Date) {
+                    d.setReviewDay((Date) reviewObj);
+                }
+
+                task.setDocument(d);
+            }
+
+            tasks.add(task);
+        }
+
+        return tasks;
+    }
+
+    public static void updateTask(int id, String description, String customer,
+            String status, String assistantName, String deliveryDate) {
+
+        MongoCollection<org.bson.Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        org.bson.Document setDoc = new org.bson.Document()
+                .append("description", description)
+                .append("customer", customer)
+                .append("status", status)
+                .append("assistantName", assistantName)
+                .append("deliveryDate", deliveryDate);
+
+        org.bson.Document update = new org.bson.Document("$set", setDoc);
+
+        taskCollection.updateOne(
+                Filters.eq("id", id),
+                update
+        );
+    }
+
+    public static boolean deleteTask(int id) {
+        try {
+            MongoCollection<org.bson.Document> taskCollection
+                    = MongoConnection.getConnection().getCollection("tasks");
+
+            taskCollection.deleteOne(Filters.eq("id", id));
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error deleting task: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static void markTaskAsCompleted(int taskId) {
+
+        MongoCollection<org.bson.Document> taskCollection
+                = MongoConnection.getConnection().getCollection("tasks");
+
+        taskCollection.updateOne(
+                Filters.eq("id", taskId),
+                new org.bson.Document("$set",
+                        new org.bson.Document("status", "Completada")
+                )
+        );
+    }
 
 }

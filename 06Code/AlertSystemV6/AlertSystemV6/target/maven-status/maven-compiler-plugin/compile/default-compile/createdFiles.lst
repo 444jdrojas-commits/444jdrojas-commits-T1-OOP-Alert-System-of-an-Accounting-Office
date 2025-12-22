@@ -25,6 +25,7 @@ ec\edu\espe\alertsystem\view\FrmAlertSystemMenuBoss$2.class
 ec\edu\espe\alertsystem\view\FrmAlertSystemMenuAssistant$3.class
 ec\edu\espe\alertsystem\controller\NaturalPersonController.class
 ec\edu\espe\alertsystem\view\FrmAssistant$3.class
+ec\edu\espe\alertsystem\view\FrmManageTask$4.class
 ec\edu\espe\alertsystem\view\FrmTask$2.class
 ec\edu\espe\alertsystem\controller\MongoConnection.class
 ec\edu\espe\alertsystem\model\Boss.class
@@ -91,6 +92,7 @@ ec\edu\espe\alertsystem\view\FrmAlertSystemMenuBoss$3.class
 ec\edu\espe\alertsystem\view\FrmAddNaturalPerson$2.class
 ec\edu\espe\alertsystem\view\FrmPerformanceIndicator$2.class
 ec\edu\espe\alertsystem\view\FrmSeeMyPerformanceIndicators.class
+ec\edu\espe\alertsystem\view\FrmInvoice$2.class
 ec\edu\espe\alertsystem\view\FrmManageCustomer$4.class
 utils\Manage.class
 ec\edu\espe\alertsystem\model\Document.class
